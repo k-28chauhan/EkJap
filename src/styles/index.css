@@ -1,0 +1,417 @@
+@import 'tailwindcss';
+@import 'lenis/dist/lenis.css';
+
+/* ------------------------------------------------------------------ */
+/* Design tokens (EKJAP_PLAN.md §4)                                    */
+/* ------------------------------------------------------------------ */
+@theme {
+  /* Only the brand palette exists: drop Tailwind's default colours */
+  --color-*: initial;
+
+  /* Night / pine */
+  --color-pine-950: #121813; /* hero background, footer */
+  --color-pine-900: #1a221c;
+  --color-pine-800: #243026;
+  --color-pine-700: #344236;
+  --color-moss-500: #66705c; /* muted foliage, secondary strokes */
+
+  /* Mist / paper */
+  --color-mist-50: #f3f0e9; /* light section background */
+  --color-mist-100: #ece8e0; /* the beige seen around the mockup */
+  --color-mist-200: #dcd7cc; /* borders on light */
+  --color-fog-300: #b9bdb4; /* mist tint in the shader */
+  --color-cream: #f1ece2; /* text on dark: the "EkJap" letter colour */
+  --color-stone-500: #8b877d; /* muted text */
+  --color-ink-900: #1c1f1a; /* body text on light */
+
+  /* Ember / light in windows. Amber means "warmth / action", nothing else */
+  --color-ember-400: #e9a35c; /* primary CTA */
+  --color-ember-300: #f4c07d; /* window glow highlight */
+  --color-ember-600: #c27a35; /* hover / pressed */
+
+  /* Dusk */
+  --color-dusk-800: #1e2a2e; /* enquiry section base */
+
+  /* Site plan status */
+  --color-status-available: #7e9b6a;
+  --color-status-hold: #d9a441;
+  --color-status-sold: #9c5e52;
+
+  /* Form errors: a soft clay that reads on both the pale and the dark themes */
+  --color-error: #c4705f;
+  --color-error-soft: #e8a393;
+
+  /* Section backgrounds the plan names but gives no hex for (section 0 table).
+     Derived from the palette above; adjust once seen on screen. */
+  --color-paper: #f8f5ee; /* daylight: paper / warm white */
+  --color-linen: #e9e1d2; /* afternoon: warm linen */
+  --color-ember-950: #1a1410; /* evening fire: dark with ember glow */
+  --color-stone-100: #e4e0d5; /* golden hour: soft stone */
+
+  /* Fonts (self-hosted via @fontsource-variable, imported in main.tsx) */
+  --font-display: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Type scale: fluid with clamp (§4.2) */
+  --text-wordmark: clamp(5.5rem, 22vw, 22rem);
+  --text-wordmark--line-height: 0.85;
+  --text-wordmark--letter-spacing: -0.035em;
+  --text-h2: clamp(2.6rem, 6vw, 6rem);
+  --text-h2--line-height: 0.95;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.6rem, 2.6vw, 2.4rem);
+  --text-h3--line-height: 1.1;
+  --text-body: 1.0625rem; /* 17px; 18px from md up, see utilities */
+  --text-body--line-height: 1.6;
+  --text-label: 0.75rem; /* 12px */
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.14em;
+
+  /* Breakpoints: mobile-first (§4.3) */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 30rem; /* 480 */
+  --breakpoint-md: 56.25rem; /* 900 */
+  --breakpoint-lg: 80rem; /* 1280 */
+  --breakpoint-xl: 90rem; /* 1440 */
+
+  /* Shape */
+  --radius-card: 1.5rem;
+  --radius-card-lg: 1.75rem;
+  --shadow-ember: 0 0 24px rgb(233 163 92 / 0.35);
+
+  /* Motion easings, mirrored in src/lib/gsap.ts */
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-power3-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Semantic colours read the live section theme variables */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section themes (§0, §6.3)                                           */
+/* A section's data-theme sets the variables statically. In Phase 3 a  */
+/* ScrollTrigger tweens the same four variables on <html> instead, so  */
+/* the page cross-fades between themes.                                */
+/* ------------------------------------------------------------------ */
+:root,
+[data-theme='night'] {
+  --bg: var(--color-pine-950);
+  --fg: var(--color-cream);
+  --muted: rgb(241 236 226 / 0.62);
+  --line: rgb(241 236 226 / 0.15);
+}
+
+[data-theme='mist'] {
+  --bg: var(--color-mist-50);
+  --fg: var(--color-ink-900);
+  --muted: var(--color-stone-500);
+  --line: rgb(28 31 26 / 0.15);
+}
+
+[data-theme='day'] {
+  --bg: var(--color-paper);
+  --fg: var(--color-ink-900);
+  --muted: var(--color-stone-500);
+  --line: rgb(28 31 26 / 0.15);
+}
+
+[data-theme='linen'] {
+  --bg: var(--color-linen);
+  --fg: var(--color-ink-900);
+  --muted: rgb(28 31 26 / 0.6);
+  --line: rgb(28 31 26 / 0.18);
+}
+
+[data-theme='ember'] {
+  --bg: var(--color-ember-950);
+  --fg: var(--color-cream);
+  --muted: rgb(241 236 226 / 0.62);
+  --line: rgb(241 236 226 / 0.15);
+}
+
+[data-theme='stone'] {
+  --bg: var(--color-stone-100);
+  --fg: var(--color-ink-900);
+  --muted: rgb(28 31 26 / 0.6);
+  --line: rgb(28 31 26 / 0.16);
+}
+
+[data-theme='dusk'] {
+  --bg: var(--color-dusk-800);
+  --fg: var(--color-cream);
+  --muted: rgb(241 236 226 / 0.62);
+  --line: rgb(241 236 226 / 0.15);
+}
+
+/* Sync mode (set on <html> by useSectionTheme): sections stop defining their own
+   palette and background and inherit the variables tweened on <html>. Sections marked
+   data-theme-local (full-bleed photo sections) keep their own. */
+html[data-theme-sync] section[data-theme]:not([data-theme-local]) {
+  --bg: inherit;
+  --fg: inherit;
+  --muted: inherit;
+  --line: inherit;
+  background-color: transparent;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    /* Late-loading images must not nudge scrollTop mid-tween (it would cancel anchor scrolling) */
+    overflow-anchor: none;
+    background-color: var(--bg);
+    color: var(--fg);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  @media (min-width: 56.25rem) {
+    body {
+      font-size: 1.125rem; /* 18px */
+    }
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+
+  ::selection {
+    background: var(--color-ember-400);
+    color: var(--color-pine-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ember-400);
+    outline-offset: 3px;
+  }
+
+  img,
+  svg,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* Reduced motion: no smooth scroll; JS side is handled by gsap.matchMedia */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Utilities                                                           */
+/* ------------------------------------------------------------------ */
+
+/* Content column: max 1320px, gutter 16px -> 48px (§4.3) */
+@utility wrap {
+  width: 100%;
+  max-width: calc(1320px + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Section spacing: 80-100px mobile, 140-180px desktop (§4.3) */
+@utility section-pad {
+  padding-block: clamp(5rem, 4rem + 4vw, 6.25rem);
+
+  @media (min-width: 56.25rem) {
+    padding-block: clamp(8.75rem, 6rem + 3vw, 11.25rem);
+  }
+}
+
+/* Uppercase tracked label (§4.2) */
+@utility label {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: var(--text-label--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Body copy measure */
+@utility measure {
+  max-width: 60ch;
+}
+
+/* 1px hairline at 15% opacity: a recurring motif */
+@utility hairline-b {
+  border-bottom: 1px solid var(--line);
+}
+
+@utility hairline-t {
+  border-top: 1px solid var(--line);
+}
+
+/* Glass card over photos (§4.3) */
+@utility glass {
+  background: rgb(18 24 19 / 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgb(241 236 226 / 0.15);
+}
+
+/* Numbers that must not jitter while counting */
+@utility tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+:root {
+  --gutter: 1rem;
+  --nav-h: 4.25rem;
+}
+
+@media (min-width: 56.25rem) {
+  :root {
+    --gutter: 3rem;
+    --nav-h: 5rem;
+  }
+}
+
+html {
+  scroll-padding-top: var(--nav-h);
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion helpers                                                      */
+/* ------------------------------------------------------------------ */
+
+/* Soft fog strip: tiles every 50% of its 200% width, so the drift loops seamlessly (§6.2 MistBand).
+   Each blob fades out inside its tile, so no seams show. */
+.mist-layer {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 200%;
+  background-repeat: repeat-x;
+  background-size: 50% 100%;
+  background-image:
+    radial-gradient(ellipse 30% 46% at 22% 52%, var(--fog), transparent 70%),
+    radial-gradient(ellipse 26% 34% at 56% 38%, var(--fog), transparent 70%),
+    radial-gradient(ellipse 28% 40% at 79% 64%, var(--fog), transparent 70%);
+  mask-image: linear-gradient(to bottom, transparent, #000 32%, #000 68%, transparent);
+  animation: mist-drift 110s linear infinite;
+  will-change: transform;
+}
+
+.mist-layer[data-slow] {
+  opacity: 0.7;
+  background-position: 25% 0;
+  animation-duration: 170s;
+  animation-direction: reverse;
+}
+
+@keyframes mist-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* The "now" dot in the builder timeline: a ring that grows and fades (transform + opacity only) */
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-ember-400);
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+/* If JavaScript never runs, the preloader removes itself after the longest it can legitimately last */
+.preloader {
+  animation: preloader-failsafe 0.01s linear 4.6s forwards;
+}
+
+@keyframes preloader-failsafe {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Selected plot on the site plan: a ring that breathes (transform + opacity only) */
+.plot-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: plot-pulse 2.2s ease-out infinite;
+}
+
+@keyframes plot-pulse {
+  from {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Modal dialog: fades and rises in; the backdrop fades with it */
+dialog[open] {
+  animation: modal-in 0.35s var(--ease-expo-out);
+}
+
+dialog[open]::backdrop {
+  animation: backdrop-in 0.35s ease-out;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
