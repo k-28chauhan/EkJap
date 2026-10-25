@@ -1,4 +1,4 @@
-import { sample, type ImageRef, type Sampled, type Theme } from './types'
+import { confirmed, sample, type ImageRef, type Theme } from './types'
 
 /**
  * ALL site-wide copy, figures and contacts live here and in the sibling data
@@ -9,16 +9,37 @@ import { sample, type ImageRef, type Sampled, type Theme } from './types'
 export const brand = {
   name: 'EkJap',
   legalName: sample('EkJap Builders (legal name to be confirmed)'),
-  tagline: 'Cottages above the mist',
+  tagline: 'Built above the mist',
   location: 'Kasauli, Himachal Pradesh',
   /** Exact site / village to be confirmed with the client */
   siteLocation: sample('Kasauli, Himachal Pradesh'),
 } as const
 
+/**
+ * The two Kasauli-side projects (client brief, Oct 2026): Himalayan Dreams is built and
+ * its photographs show the finished interiors; EkJap Samruddhi is the new project this
+ * site sells, and it is under construction.
+ */
+export const projects = {
+  current: {
+    name: 'EkJap Samruddhi',
+    display: 'EkJap *Samruddhi*',
+    place: 'Kasauli, Himachal Pradesh',
+  },
+  /** `display` sets the name in the display face, the starred word in italics */
+  built: {
+    name: 'Himalayan Dreams',
+    display: 'Himalayan *Dreams*',
+    /** Shown under the name in the Inside banner */
+    facts: ['48 apartments', '2 cottages'],
+  },
+  /** The Goa project, shown when "Goa" is chosen in the nav */
+  goa: { name: 'Paradise Farms', facts: ['17 apartments'] },
+} as const
+
 export const meta = {
-  title: 'EkJap — Cottages in Kasauli, Himachal Pradesh',
-  description:
-    'Fourteen cottages on a pine ridge in Kasauli, at the height where the clouds come to rest. Book a site visit.',
+  title: `${projects.current.name} — Kasauli, Himachal Pradesh`,
+  description: `${projects.current.name}: a new address in the Kasauli hills, at the height where the clouds come to rest. Under construction and open to your own design. Book a site visit.`,
   /** Canonical URL is set at deploy time */
   canonical: '',
   ogImage: 'og/og-image.jpg',
@@ -26,14 +47,22 @@ export const meta = {
 
 export const contact = {
   /** wa.me format: country code + number, digits only */
-  whatsapp: sample('91XXXXXXXXXX'),
-  phone: sample('+91 XXXXX XXXXX'),
+  whatsapp: confirmed('917696002999'),
+  phone: confirmed('+91 76960 02999'),
   email: sample('hello@ekjap.example'),
-  address: sample('Sales office, Kasauli, Himachal Pradesh (address to be confirmed)'),
+  address: confirmed(
+    'EkJap Samruddhi, Subathu Road, Dharampur, Anji, Kasauli, Himachal Pradesh 173209',
+  ),
   siteVisits: sample('Site visits every weekend, pickup from the highway turn-off'),
+  /** The project's Google Maps pin: `link` is the share link, `embed` the same place for the page's map */
+  map: {
+    link: 'https://maps.app.goo.gl/hUJCNJfKJYCCPjrFA?g_st=iw',
+    embed:
+      'https://maps.google.com/maps?q=EkJap+Samruddhi,+Subathu+Road,+Dharampur,+Anji,+Kasauli,+Himachal+Pradesh+173209&output=embed',
+    label: 'Open in Google Maps',
+    title: 'Map showing the location of EkJap Samruddhi near Kasauli',
+  },
 } as const
-
-export const rera: Sampled<string | null> = sample(null)
 
 /** Sections in page order. Drives anchors, nav highlighting, theme switching and the altitude gauge. */
 export const sections = [
@@ -41,23 +70,24 @@ export const sections = [
   { id: 'intro', label: 'Intro', theme: 'mist' },
   { id: 'glance', label: 'At a glance', theme: 'mist' },
   { id: 'kasauli', label: 'Kasauli', theme: 'day' },
-  { id: 'cottages', label: 'Cottages', theme: 'day' },
+  { id: 'cottages', label: 'Designs', theme: 'day' },
+  { id: 'custom', label: 'Under construction', theme: 'linen' },
   { id: 'inside', label: 'Inside', theme: 'linen' },
-  { id: 'materials', label: 'Materials', theme: 'linen' },
   { id: 'why', label: 'Why here', theme: 'ember' },
   { id: 'life', label: 'Life here', theme: 'ember' },
-  { id: 'siteplan', label: 'Site plan', theme: 'stone' },
   { id: 'builder', label: 'Builder', theme: 'stone' },
-  { id: 'faq', label: 'FAQ', theme: 'stone' },
   { id: 'enquire', label: 'Enquire', theme: 'dusk' },
 ] as const satisfies readonly { id: string; label: string; theme: Theme }[]
 
 export const nav = {
+  /**
+   * `view` marks the two project views: the page is Kasauli by default and shows the
+   * Goa project only when "Goa" is chosen (see src/lib/view.ts).
+   */
   links: [
-    { label: 'Cottages', href: '#cottages' },
-    { label: 'Kasauli', href: '#kasauli' },
-    { label: 'Site plan', href: '#siteplan' },
-    { label: 'Builder', href: '#builder' },
+    { label: 'Kasauli', href: '#kasauli', view: 'kasauli' },
+    { label: 'Goa', href: '#goa', view: 'goa' },
+    { label: 'Builder', href: '#builder', view: null },
   ],
   cta: { label: 'Book a site visit', href: '#enquire' },
   mobileBar: { label: 'Book a visit', whatsappLabel: 'WhatsApp us' },
@@ -70,29 +100,34 @@ export const altitude = {
 } as const
 
 export const hero = {
-  eyebrow: 'Cottages · Kasauli, Himachal Pradesh',
+  eyebrow: `${projects.current.name} · ${projects.current.place}`,
   title: 'EkJap',
-  tagline: 'Cottages above the mist',
+  tagline: 'Built above the mist',
   paragraph:
-    'Fourteen cottages on a pine ridge, at the height where the clouds come to rest. Under two hours from Chandigarh.',
+    'A new address in the Kasauli hills, at the height where the clouds come to rest. Under two hours from Chandigarh.',
   paragraphSample: true, // drive time to be confirmed
   primaryCta: 'Book a site visit',
-  secondaryCta: { label: 'See the cottages', href: '#cottages' },
+  secondaryCta: { label: 'See the designs', href: '#cottages' },
   image: {
-    src: 'hero/hero-00-bg-night.webp',
-    alt: 'Cloud rolling over pine-covered hills at night, with one lit cottage on the ridge',
+    src: 'hero/hero-00-bg-mist.webp',
+    alt: 'Cloud drifting through pine-covered ridges, with a single cottage among the trees on the hillside',
   } satisfies ImageRef,
   /**
-   * The single night photograph stands in for the layered plates until they are
-   * produced (see the hand-off notes). `ratio` is its pixel aspect; `anchor` is
-   * the point kept in view when the frame crops it; `window` is the lit cottage
-   * window, as a percentage of the photo, where the glow is placed.
+   * The single photograph stands in for the layered plates until they are produced
+   * (see the hand-off notes). `ratio` is its pixel aspect; `anchor` is the point kept
+   * in view when the frame crops it; `window` is the cottage's window, as a percentage
+   * of the photo, where the warm glow is placed (delete `window` to drop the glow).
    */
   plate: {
     ratio: 2000 / 1116,
-    anchor: { x: 70, y: 60 },
-    window: { x: 74.35, y: 76.35 },
+    anchor: { x: 62, y: 70 },
+    window: { x: 56.75, y: 78.1 },
   },
+  /** The status line under the hero copy: the project is being built and is open to the buyer's own design */
+  badge: 'Under construction · Customise it your way',
+  /** A link under the button: social proof from the finished project */
+  builtLine: `From the builder of ${projects.built.name}`,
+  builtHref: '#inside',
   scroll: 'Scroll',
   altitudeLabel: 'above sea level',
 } as const
@@ -141,11 +176,11 @@ export const glance = {
     },
     {
       id: 'cottages',
-      value: 14,
-      display: '14',
+      value: 3,
+      display: '3',
       format: 'number',
       unit: '',
-      label: 'cottages in 3 designs',
+      label: 'sample designs to start from',
       sample: true,
     },
     {
@@ -169,88 +204,94 @@ export const glance = {
   ],
 } as const
 
+/**
+ * The "under construction, customisable to the buyer's taste" message (client brief,
+ * Oct 2026). The copy is a draft in the builder's voice; the current stage is read
+ * from the timeline so the two never disagree.
+ */
+export const construction = {
+  label: `${projects.current.name} · Under construction`,
+  title: 'Being built now, *built your way*',
+  copy: `${projects.current.name} is under construction, so nothing here is set in stone. Tell us what you want built, a home, an apartment or anything else, and we will build it that way.`,
+  copySample: true,
+  kicker: 'Our new project',
+  statusTitle: 'Under construction',
+  line: 'Being built now in Kasauli. Tell us what you need, and make it yours.',
+  typesLabel: 'What it can be',
+  types: ['Homes', 'Apartments', 'Anything else'],
+  customiseLabel: 'Customise',
+  customiseTitle: 'Yours to shape',
+  customiseItems: [
+    { title: 'The layout', text: 'Open plan or separate rooms, one level or more.' },
+    { title: 'The rooms', text: 'How many, how big, and what each one is for.' },
+    { title: 'The materials', text: 'Timber, stone, slate, or whatever you prefer.' },
+    { title: 'The finishes', text: 'Colours, fittings and fixtures, down to the handles.' },
+  ],
+  cta: 'Tell us how you’d like yours',
+  smallPrint: 'Draft copy, to be confirmed with the builder.',
+} as const
+
 export const inside = {
-  label: 'Inside',
+  label: `${projects.built.name} · Already built`,
   title: 'Inside, it’s *warm*',
-  copy: 'These rooms are from homes EkJap has finished in the hills: timber walls, pine ceilings, painted cabinets worn back by hand. The cottages will be fitted in the same spirit.',
+  copy: `These rooms are from ${projects.built.name}, our last project: timber walls, warm light, and wood in every room. Your home can be fitted in the same spirit, or in whatever spirit you choose.`,
   /** Confirm with the client that these are their own finished homes */
   copySample: true,
   quote: 'A house in the hills should feel like it was always there.',
   quoteSample: true,
+  /** The banner that opens the section: Himalayan Dreams, the finished project, set apart */
+  project: {
+    kicker: 'Our last project',
+    status: 'Completed',
+    line: 'Already built, and the best way to see how we build. Step inside.',
+    cta: { label: 'Build yours the same way', href: '#enquire' },
+  },
   seeAll: 'See all photos',
-  smallPrint: 'Interiors are from the builder’s completed homes (to be confirmed).',
+  smallPrint: `Interiors are from ${projects.built.name}, the builder’s completed project (to be confirmed).`,
   photos: [
     {
       src: 'inside/inside-01-lounge-fireplace.jpg',
-      alt: 'Living room with a fireplace and a live-edge timber wall',
-      caption: 'Lounge · live-edge timber',
+      alt: 'A living room with timber-slab walls, leather armchairs, a fireplace and a deer-head sculpture',
+      caption: 'Lounge · timber-slab walls',
     },
     {
-      src: 'inside/inside-02-reading-corner.jpg',
-      alt: 'Armchair by a window beside a distressed painted cabinet',
-      caption: 'Reading corner · hand-worn paint',
+      src: 'inside/inside-02-bathroom-tiles.jpg',
+      alt: 'A bathroom with patterned tiles, a framed mirror and a dark stone basin',
+      caption: 'Bathroom · patterned tiles',
     },
     {
-      src: 'inside/inside-03-guest-room.jpg',
-      alt: 'Bedroom with a glazed door opening to the garden',
-      caption: 'Guest room · garden door',
+      src: 'inside/inside-06-verandah.jpg',
+      alt: 'A verandah with timber-framed mesh doors, a cane chair and a hanging swing seat',
+      caption: 'Verandah · timber-framed doors',
+      position: '70% 50%',
     },
     {
       src: 'inside/inside-04-kitchen-dining.jpg',
-      alt: 'Long dining table for eight beside an open kitchen',
-      caption: 'Kitchen · seats eight',
+      alt: 'A kitchen with wood-grain cabinets and an oval glass-topped dining table under a chandelier',
+      caption: 'Kitchen and dining',
     },
     {
       src: 'inside/inside-05-main-bedroom.jpg',
-      alt: 'Bedroom with a timber-panelled wall',
+      alt: 'A bedroom with a dark timber-panelled wall, a painted elephant panel and floral bedding',
       caption: 'Main bedroom · timber panelling',
+      position: '55% 50%',
     },
     {
-      src: 'inside/inside-06-attic-studio.jpg',
-      alt: 'Attic room under a vaulted pine ceiling',
-      caption: 'Attic studio · pine ceiling',
+      src: 'inside/inside-03-guest-room.jpg',
+      alt: 'A bedroom with a timber feature wall, patterned curtains at a tall window and a ceiling fan',
+      caption: 'Guest room · timber feature wall',
+    },
+    {
+      src: 'inside/inside-08-bar.jpg',
+      alt: 'A home bar with a studded wooden counter, a plank-clad wall with crossed rifles and pendant lamps, and barrel-style stools',
+      caption: 'Home bar · plank wall',
+    },
+    {
+      src: 'inside/inside-07-bedroom.jpg',
+      alt: 'A bedroom with a panelled wardrobe, a timber feature wall, and checked bedding',
+      caption: 'Bedroom · warm wood tones',
     },
   ] satisfies ImageRef[],
-} as const
-
-export const materials = {
-  label: 'Materials',
-  title: 'Made from what the hill *gives*',
-  items: [
-    {
-      id: 'timber',
-      name: 'Live-edge timber',
-      line: 'Bark line left on',
-      image: {
-        src: 'textures/texture-timber.jpg',
-        alt: 'Close crop of live-edge timber with the bark line left on',
-      },
-    },
-    {
-      id: 'pine',
-      name: 'Pine boarding',
-      line: 'Tongue-and-groove ceilings',
-      image: {
-        src: 'textures/texture-pine.jpg',
-        alt: 'Close crop of tongue-and-groove pine boarding',
-      },
-    },
-    {
-      id: 'paint',
-      name: 'Worn paint',
-      line: 'Painted, then rubbed back by hand',
-      image: {
-        src: 'textures/texture-paint.jpg',
-        alt: 'Close crop of painted wood rubbed back by hand',
-      },
-    },
-    {
-      id: 'stone',
-      name: 'Dry-laid stone',
-      line: 'Local stone for plinths and terraces',
-      image: { src: 'textures/texture-stone.jpg', alt: 'Close crop of dry-laid local stone' },
-    },
-  ],
 } as const
 
 export const why = {
@@ -258,7 +299,7 @@ export const why = {
   title: 'An evening *by the fire*',
   background: {
     src: 'inside/inside-01-lounge-fireplace.jpg',
-    alt: 'Living room with a lit fireplace and a live-edge timber wall',
+    alt: 'A living room with timber-slab walls, leather armchairs and a fireplace',
   } satisfies ImageRef,
   cards: [
     {
@@ -293,55 +334,23 @@ export const life = {
   /** Amenities live in amenities.ts */
 } as const
 
-export const siteplan = {
-  label: 'Site plan',
-  title: 'Find your *plot*',
-  copy: 'Tap a plot to see its cottage, elevation and outlook. Filter by design to see where each one sits on the ridge.',
-  badge: 'Sample availability',
-  filters: [
-    { id: 'all', label: 'All' },
-    { id: 'pine', label: 'The Pine' },
-    { id: 'ridge', label: 'The Ridge' },
-    { id: 'deodar', label: 'The Deodar' },
-  ],
-  legend: { available: 'Available', hold: 'On hold', sold: 'Sold' },
-  ask: 'Ask about plot',
-  card: {
-    plot: 'Plot',
-    layout: 'Layout',
-    area: 'Built-up area',
-    elevation: 'Elevation',
-    facing: 'Facing',
-    view: 'Main view',
-    bed: 'bed',
-    unit: 'sq ft',
-  },
-} as const
-
 export const builder = {
   label: 'The builder',
-  title: 'Built by people who *live* in the hills',
-  copy: 'EkJap builds in timber and stone, and stays to see the work finished. Details of the company and its earlier projects are below.',
+  title: 'Open for *construction* contracts',
+  copy: `EkJap takes contracts to build anything: apartments, cottages, villas and more, from first drawings to handover. ${projects.built.name} (48 apartments and 2 cottages) is complete, ${projects.goa.name} in Goa has 17 apartments, and ${projects.current.name} is the next.`,
   copySample: true,
   image: {
     src: 'builder/builder-01-past-project.jpg',
-    alt: 'A completed EkJap project in the hills',
-    caption: 'An earlier project',
+    alt: `The dining area and lounge at ${projects.built.name}, with a chandelier, a long glass-topped table and timber-slab walls`,
+    caption: `${projects.built.name} · our last project`,
   } satisfies ImageRef,
   numbers: [
-    { id: 'years', value: sample(0), label: 'years building' },
-    { id: 'homes', value: sample(0), label: 'homes delivered' },
-    { id: 'towns', value: sample(0), label: 'hill towns' },
+    { id: 'years', value: confirmed('30+'), label: 'years building' },
+    /** The apartments at Himalayan Dreams; confirm the total delivered with the client */
+    { id: 'apartments', value: sample('60+'), label: 'apartments delivered' },
+    { id: 'locations', value: confirmed('3'), label: 'locations' },
   ],
-  reraLabel: 'RERA registration',
-  reraMissing: 'Registration number to be provided',
-  smallPrint: 'Stages, dates and figures are samples until confirmed.',
-} as const
-
-export const faqSection = {
-  label: 'FAQ',
-  title: 'Questions, *answered*',
-  smallPrint: 'Answers are drafts until confirmed by the builder.',
+  smallPrint: 'Figures are samples until confirmed.',
 } as const
 
 export const enquire = {
@@ -358,15 +367,6 @@ export const enquire = {
       prefix: '+91',
       error: 'Enter a 10-digit mobile number.',
     },
-    interest: {
-      label: 'Interested in',
-      options: [
-        { value: 'unsure', label: 'Not sure' },
-        { value: 'pine', label: 'The Pine' },
-        { value: 'ridge', label: 'The Ridge' },
-        { value: 'deodar', label: 'The Deodar' },
-      ],
-    },
     visit: {
       label: 'When could you visit?',
       options: [
@@ -378,7 +378,6 @@ export const enquire = {
       dateLabel: 'Visit date',
       dateError: 'Choose a date for your visit.',
     },
-    plot: { label: 'Plot (optional)' },
     brochure: { label: 'Send me the brochure and price list on WhatsApp' },
   },
   submit: 'Request a site visit',
@@ -390,12 +389,11 @@ export const enquire = {
   failure: 'Something went wrong. Please try again, or message us on WhatsApp.',
   whatsapp: {
     label: 'Chat on WhatsApp',
-    /** {topic} is replaced with the chosen cottage / plot */
-    message: 'Hello EkJap, I’d like to visit the ridge. {topic}',
+    /** {topic} is replaced with the chosen cottage or project */
+    message: `Hello EkJap, I’d like to visit ${projects.current.name}. {topic}`,
     generalTopic: 'Please share the details.',
-    /** {what} is the chosen cottage and plot */
+    /** {what} is the chosen cottage or project */
     topic: 'I’m interested in {what}.',
-    plotWord: 'plot',
     copyLabel: 'Copy number',
     copyFailed: 'Copy failed',
     copied: 'Copied',
@@ -409,8 +407,7 @@ export const footer = {
     address: 'Address',
     links: 'Links',
   },
-  disclaimer:
-    'Exterior images are representative and will be replaced with renders of the final design. Interiors are from the builder’s completed homes. Specifications and figures are indicative.',
+  disclaimer: `${projects.current.name} is under construction and can be customised. Exterior images are representative and will be replaced with renders of the final design. Interiors are from ${projects.built.name}, the builder’s completed project. Specifications and figures are indicative.`,
   privacy: { label: 'Privacy policy', href: '#' },
   copyright: (year: number) => `© ${year} EkJap`,
 } as const

@@ -19,8 +19,8 @@ export const amenities: Amenity[] = [
     text: 'A shared lounge with a hearth for cold evenings and long conversations.',
     image: {
       src: 'inside/inside-01-lounge-fireplace.jpg',
-      alt: 'Lounge with a fireplace and live-edge timber wall',
-      caption: 'Interior from a completed EkJap home',
+      alt: 'A lounge with timber-slab walls, leather armchairs and a fireplace',
+      caption: 'Interior at Himalayan Dreams',
     },
   },
   {
@@ -41,36 +41,6 @@ export const amenities: Amenity[] = [
       src: 'town/town-04-forest-trail.jpg',
       alt: 'A winding road between tall deodar trees at dusk',
       caption: 'Gilbert Trail, Kasauli',
-    },
-  },
-  {
-    id: 'caretaker',
-    title: '24×7 caretaker & security',
-    text: 'Someone is always on site, so the house is looked after when you are not.',
-    image: {
-      src: 'inside/inside-03-guest-room.jpg',
-      alt: 'Guest bedroom with a glazed door to the garden',
-      caption: 'Interior from a completed EkJap home',
-    },
-  },
-  {
-    id: 'backup',
-    title: 'Power and water backup',
-    text: 'Backup for the evenings the hills lose the grid.',
-    image: {
-      src: 'inside/inside-04-kitchen-dining.jpg',
-      alt: 'Kitchen with a long dining table for eight',
-      caption: 'Interior from a completed EkJap home',
-    },
-  },
-  {
-    id: 'rental',
-    title: 'Rental management',
-    text: 'Optional management, so the cottage earns while you are in the city.',
-    image: {
-      src: 'inside/inside-05-main-bedroom.jpg',
-      alt: 'Main bedroom with a timber-panelled wall',
-      caption: 'Interior from a completed EkJap home',
     },
   },
 ]

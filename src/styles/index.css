@@ -53,7 +53,7 @@
   --font-sans: 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif;
 
   /* Type scale: fluid with clamp (§4.2) */
-  --text-wordmark: clamp(5.5rem, 22vw, 22rem);
+  --text-wordmark: clamp(5rem, 17.5vw, 17.5rem);
   --text-wordmark--line-height: 0.85;
   --text-wordmark--letter-spacing: -0.035em;
   --text-h2: clamp(2.6rem, 6vw, 6rem);
@@ -376,24 +376,6 @@ html {
   }
 }
 
-/* Selected plot on the site plan: a ring that breathes (transform + opacity only) */
-.plot-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: plot-pulse 2.2s ease-out infinite;
-}
-
-@keyframes plot-pulse {
-  from {
-    transform: scale(0.85);
-    opacity: 0.9;
-  }
-  to {
-    transform: scale(1.5);
-    opacity: 0;
-  }
-}
-
 /* Modal dialog: fades and rises in; the backdrop fades with it */
 dialog[open] {
   animation: modal-in 0.35s var(--ease-expo-out);
@@ -414,4 +396,13 @@ dialog[open]::backdrop {
   from {
     opacity: 0;
   }
+}
+
+/* The hero wordmark: heavier strokes and a soft dark halo, so it lifts off the photograph */
+.wordmark-lift {
+  font-weight: 520;
+  color: #fbf7ee;
+  text-shadow:
+    0 0 28px rgb(18 24 19 / 0.55),
+    0 2px 60px rgb(18 24 19 / 0.45);
 }

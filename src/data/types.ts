@@ -13,6 +13,8 @@ export interface ImageRef {
   alt: string
   /** Shown as a small caption, e.g. 'Representative image' on cottage exteriors */
   caption?: string
+  /** CSS object-position, to keep the subject in view when the frame crops the photo */
+  position?: string
 }
 
 /**

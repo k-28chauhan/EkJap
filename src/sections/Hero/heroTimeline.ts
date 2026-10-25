@@ -30,6 +30,7 @@ export function setupIntro(root: HTMLElement, mist: MistState) {
   const tagline = pick(root, 'tagline')
   const paragraph = pick(root, 'paragraph')
   const cta = pick(root, 'cta')
+  const badges = pickAll(root, 'badge')
   const scroll = pick(root, 'scroll')
   const scrollLine = pick(root, 'scroll-line')
   const scrollLight = pick(root, 'scroll-light')
@@ -59,7 +60,7 @@ export function setupIntro(root: HTMLElement, mist: MistState) {
   gsap.set(plate, { opacity: 0, scale: 1.08, filter: 'blur(12px)' })
   mist.fade = 0
   mist.density = 0.9
-  gsap.set([eyebrow, paragraph], { opacity: 0, y: 20 })
+  gsap.set([eyebrow, paragraph, ...badges], { opacity: 0, y: 20 })
   gsap.set(cta, { opacity: 0, scale: 0.9 })
   gsap.set(glow, { opacity: 0 })
   gsap.set(scroll, { opacity: 0 })
@@ -96,11 +97,12 @@ export function setupIntro(root: HTMLElement, mist: MistState) {
     // 0.5 the letters rise one by one
     .to(letters.chars, { yPercent: 0, duration: 1.2, ease: 'power4.out', stagger: 0.07 }, 0.5)
     // 0.9 the fog thins and reveals them
-    .to(mist, { density: 0.55, duration: 2, ease: 'power2.inOut' }, 0.9)
+    .to(mist, { density: 0.34, duration: 2, ease: 'power2.inOut' }, 0.9)
     // 1.3 eyebrow, tagline lines, paragraph
     .to(eyebrow, { opacity: 1, y: 0, duration: 0.8 }, 1.3)
     .to(lines.lines, { yPercent: 0, duration: 1, ease: 'power4.out', stagger: 0.1 }, 1.4)
     .to(paragraph, { opacity: 1, y: 0, duration: 0.9 }, 1.6)
+    .to(badges, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12 }, 1.7)
     // 1.7 the button
     .to(cta, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.6)' }, 1.7)
     // 1.9 someone's home: the window lights with a quick flicker

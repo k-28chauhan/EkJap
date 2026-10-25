@@ -6,12 +6,14 @@ import { introGate } from '@/lib/introGate'
 import { useMotion } from '@/lib/useMotion'
 import { AnchorLink } from '../ui/AnchorLink'
 import { Button } from '../ui/Button'
+import { useView } from '@/lib/view'
 import { MobileMenu } from './MobileMenu'
 
 /** Transparent over the hero, solid pine once the page scrolls. Always light-on-dark. */
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const view = useView()
   const header = useRef<HTMLElement>(null)
 
   // Intro (EKJAP_PLAN.md §7.4): at 1.1s the bar slides down and its hairline draws left
@@ -75,7 +77,8 @@ export function Nav() {
                 <li key={link.href}>
                   <AnchorLink
                     href={link.href}
-                    className="text-[0.95rem] text-fg/85 transition-colors hover:text-fg"
+                    aria-current={link.view === view ? 'page' : undefined}
+                    className="text-[0.95rem] text-fg/85 transition-colors hover:text-fg aria-[current=page]:text-fg aria-[current=page]:underline aria-[current=page]:decoration-ember-400 aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
                   >
                     {link.label}
                   </AnchorLink>

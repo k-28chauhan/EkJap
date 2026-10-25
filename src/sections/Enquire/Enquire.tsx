@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { FadeUp } from '@/components/motion/FadeUp'
 import { Button } from '@/components/ui/Button'
 import { Img } from '@/components/ui/Img'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { cottageById } from '@/data/cottages'
 import { contact, enquire } from '@/data/site'
 import { useEnquiryPrefill } from '@/lib/enquiryStore'
 import { enquirySchema, type EnquiryValues } from '@/lib/enquirySchema'
@@ -18,23 +17,12 @@ import { SuccessCard } from './SuccessCard'
 const defaults: EnquiryValues = {
   name: '',
   mobile: '',
-  interest: 'unsure',
   visit: 'this-weekend',
   date: '',
-  plot: '',
   brochure: true,
 }
 
 type Status = 'idle' | 'success' | 'error'
-
-/** "The Pine, plot 07" for the WhatsApp message, from whatever the visitor has chosen so far. */
-function topicFor(interest: EnquiryValues['interest'], plot: string) {
-  const parts = [
-    interest !== 'unsure' ? cottageById[interest].name : '',
-    plot.trim() ? `${enquire.whatsapp.plotWord} ${plot.trim()}` : '',
-  ].filter(Boolean)
-  return parts.length ? enquire.whatsapp.topic.replace('{what}', parts.join(', ')) : undefined
-}
 
 export function Enquire() {
   const form = useForm<EnquiryValues>({
@@ -50,16 +38,7 @@ export function Enquire() {
   })
   const [copied, setCopied] = useState<'idle' | 'done' | 'failed'>('idle')
 
-  // The cottage and plot buttons elsewhere on the page write to the store
-  useEffect(() => {
-    if (!prefill.id) return
-    form.setValue('interest', prefill.interest ?? 'unsure', { shouldDirty: true })
-    form.setValue('plot', prefill.plot ?? '', { shouldDirty: true })
-  }, [prefill, form])
-
   const status: Status = outcome.prefillId === prefill.id ? outcome.status : 'idle'
-
-  const [interest, plot] = useWatch({ control: form.control, name: ['interest', 'plot'] })
 
   const onSubmit = form.handleSubmit(async (values) => {
     try {
@@ -105,7 +84,9 @@ export function Enquire() {
 
           <div className="flex flex-col items-start gap-6">
             <Button
-              href={whatsappUrl(topicFor(interest, plot))}
+              href={whatsappUrl(
+                prefill.topic ? enquire.whatsapp.topic.replace('{what}', prefill.topic) : undefined,
+              )}
               external
               className="bg-[#25D366] text-pine-950 hover:bg-[#1fb957]"
             >
@@ -136,6 +117,24 @@ export function Enquire() {
               <li>{contact.address.value}</li>
               <li>{contact.siteVisits.value}</li>
             </ul>
+
+            <div className="w-full">
+              <iframe
+                src={contact.map.embed}
+                title={contact.map.title}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="aspect-[16/10] w-full rounded-card border border-cream/20 bg-pine-950/40"
+              />
+              <a
+                href={contact.map.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block label text-cream underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
+              >
+                {contact.map.label} ↗
+              </a>
+            </div>
           </div>
         </div>
 

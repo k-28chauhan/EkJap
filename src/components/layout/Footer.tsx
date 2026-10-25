@@ -1,4 +1,4 @@
-import { builder, contact, footer, nav, rera } from '@/data/site'
+import { contact, footer, nav } from '@/data/site'
 import { AnchorLink } from '../ui/AnchorLink'
 import { whatsappUrl } from '@/lib/whatsapp'
 
@@ -29,6 +29,14 @@ export function Footer() {
           <div>
             <h2 className="mb-5 label text-muted">{footer.columns.address}</h2>
             <address className="max-w-[32ch] measure not-italic">{contact.address.value}</address>
+            <a
+              href={contact.map.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-block underline decoration-current/40 underline-offset-4 hover:decoration-current"
+            >
+              {contact.map.label} ↗
+            </a>
           </div>
           <div>
             <h2 className="mb-5 label text-muted">{footer.columns.links}</h2>
@@ -45,13 +53,9 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-16 label text-muted">
-          {builder.reraLabel}: {rera.value ?? builder.reraMissing}
-        </p>
-
         <p
           aria-hidden
-          className="mt-10 mb-[0.04em] pt-[0.22em] font-display text-[clamp(7rem,34vw,34rem)] leading-[0.8] tracking-[-0.04em] text-cream select-none"
+          className="mt-10 mb-[0.04em] pt-[0.22em] font-display text-[clamp(4.5rem,20vw,20rem)] leading-[0.8] tracking-[-0.04em] text-cream select-none"
         >
           {footer.wordmark}
         </p>

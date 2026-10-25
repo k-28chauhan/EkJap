@@ -51,11 +51,16 @@ export function HeroLayers({ mist }: { mist: 'webgl' | 'css' }) {
       {/* Scrims keep the copy and wordmark readable over the photograph */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-pine-950/70 via-pine-950/10 to-pine-950/85"
+        className="absolute inset-0 bg-gradient-to-b from-pine-950/70 via-pine-950/20 to-pine-950/85"
       />
       <div
         aria-hidden
         className="absolute inset-0 bg-gradient-to-r from-pine-950/70 via-pine-950/15 to-transparent md:via-transparent"
+      />
+      {/* A soft dark pool behind the copy column, where the photograph is brightest (fog and sky) */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_82%_24%,rgb(18_24_19/0.6),transparent_58%)]"
       />
 
       {/* 2: back mist, drifting behind the letters (CSS) */}

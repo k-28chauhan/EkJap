@@ -95,26 +95,15 @@ export function EnquiryForm({ form, onSubmit, failed }: EnquiryFormProps) {
         </div>
       </Field>
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field label={fields.interest.label} htmlFor="enq-interest">
-          <select id="enq-interest" className={cn(field, ok)} {...register('interest')}>
-            {fields.interest.options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field label={fields.visit.label} htmlFor="enq-visit">
-          <select id="enq-visit" className={cn(field, ok)} {...register('visit')}>
-            {fields.visit.options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </Field>
-      </div>
+      <Field label={fields.visit.label} htmlFor="enq-visit">
+        <select id="enq-visit" className={cn(field, ok)} {...register('visit')}>
+          {fields.visit.options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </Field>
 
       {wantsDate && (
         <Field label={fields.visit.dateLabel} htmlFor="enq-date" error={errors.date?.message}>
@@ -128,10 +117,6 @@ export function EnquiryForm({ form, onSubmit, failed }: EnquiryFormProps) {
           />
         </Field>
       )}
-
-      <Field label={fields.plot.label} htmlFor="enq-plot">
-        <input id="enq-plot" type="text" className={cn(field, ok)} {...register('plot')} />
-      </Field>
 
       <label className="flex items-start gap-3 text-[0.95rem] text-cream/85">
         <input type="checkbox" className="mt-1 size-4 accent-ember-400" {...register('brochure')} />

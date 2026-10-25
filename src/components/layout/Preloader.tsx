@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { brand, preloader } from '@/data/site'
+import { brand, hero, preloader } from '@/data/site'
 import { gsap, useGSAP } from '@/lib/gsap'
 import { getPicture } from '@/lib/images'
 import { openIntroGate } from '@/lib/introGate'
@@ -24,10 +24,10 @@ const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, 
 /** Fonts, plus the hero photograph decoded, so the hero never pops in after the loader lifts. */
 async function assetsReady() {
   const tasks: Promise<unknown>[] = [document.fonts?.ready ?? Promise.resolve()]
-  const hero = getPicture('hero/hero-00-bg-night.webp')
-  if (hero) {
+  const picture = getPicture(hero.image.src)
+  if (picture) {
     const image = new Image()
-    image.src = hero.img.src
+    image.src = picture.img.src
     tasks.push(image.decode().catch(() => undefined))
   }
   await Promise.all(tasks)

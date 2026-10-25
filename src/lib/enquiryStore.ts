@@ -1,15 +1,14 @@
 import { useSyncExternalStore } from 'react'
-import type { CottageType } from '@/data/types'
 
 /**
- * The cottage and plot buttons around the page pre-fill the enquiry form
- * (EKJAP_PLAN.md §9.4, §9.9). They write here; the form reads it. `id` changes on
- * every write, so asking about the same plot twice still re-applies.
+ * The "Ask about" buttons around the page set the topic of the WhatsApp message
+ * (EKJAP_PLAN.md §9.4). They write here; the enquiry section reads it. `id` changes on every write, so asking
+ * about the same cottage twice still re-applies.
  */
 export interface EnquiryPrefill {
   id: number
-  interest?: CottageType
-  plot?: string
+  /** What the visitor asked about, e.g. "The Pine" */
+  topic?: string
 }
 
 let state: EnquiryPrefill = { id: 0 }

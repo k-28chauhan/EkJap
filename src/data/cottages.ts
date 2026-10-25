@@ -24,11 +24,11 @@ export interface Cottage {
 }
 
 export const cottagesSection = {
-  label: 'The cottages',
+  label: 'Design ideas',
   title: 'Three ways to *come home*',
-  copy: 'Three designs, each set to the slope and turned to the valley.',
+  copy: 'Three sample designs, each set to the slope and turned to the valley. Nothing at EkJap Samruddhi is fixed yet, so each can be changed, or replaced with a design of your own.',
   specLabels: { layout: 'Layout', area: 'Built-up area', price: 'Price', unit: 'sq ft' },
-  smallPrint: 'Sample figures. Floor plans are placeholders.',
+  smallPrint: 'Sample designs and figures. Floor plans are placeholders.',
   viewPlan: 'View plan',
   closeModal: 'Close',
   planModalTitle: 'Floor plan',

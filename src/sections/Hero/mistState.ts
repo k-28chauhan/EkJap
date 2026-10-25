@@ -4,7 +4,7 @@
  * directly with no React re-renders.
  */
 export interface MistState {
-  /** Resting density of the fog: 0.9 at first, easing to 0.55 as the letters are revealed */
+  /** Resting density of the fog: 0.9 at first, easing to 0.34 as the letters are revealed */
   density: number
   /** 0 -> 1 as the intro fades the mist in */
   fade: number
@@ -19,7 +19,7 @@ export interface MistState {
 }
 
 export const createMistState = (): MistState => ({
-  density: 0.55,
+  density: 0.34,
   fade: 1,
   out: 0,
   mouseX: 0,

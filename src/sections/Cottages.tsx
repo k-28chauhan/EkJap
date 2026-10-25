@@ -210,7 +210,7 @@ export function Cottages() {
                       <Button
                         href="#enquire"
                         variant="outline"
-                        onClick={() => prefillEnquiry({ interest: cottage.id })}
+                        onClick={() => prefillEnquiry({ topic: cottage.name })}
                       >
                         {cottage.askLabel}
                       </Button>

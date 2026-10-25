@@ -102,7 +102,7 @@ export const route = {
   /** In order, from the plains to the ridge. `minutes` is cumulative from Chandigarh. */
   stops: [
     { id: 'chandigarh', name: 'Chandigarh', minutes: 0 },
-    { id: 'pinjore', name: 'Pinjore', minutes: 30 },
+    { id: 'panchkula', name: 'Panchkula', minutes: 30 },
     { id: 'parwanoo', name: 'Parwanoo', minutes: 50 },
     { id: 'dharampur', name: 'Dharampur', minutes: 80 },
     { id: 'kasauli', name: 'Kasauli', minutes: 95 },

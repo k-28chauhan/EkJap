@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
+import { AnchorLink } from '@/components/ui/AnchorLink'
 import { Button } from '@/components/ui/Button'
 import { Section } from '@/components/ui/Section'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
@@ -113,7 +114,7 @@ export function Hero() {
         <h1
           id="hero-title"
           data-hero="wordmark"
-          className="relative z-10 my-auto font-display text-wordmark text-cream md:col-span-9 md:col-start-1 md:row-start-2 md:mt-auto md:mb-0 md:self-end"
+          className="wordmark-lift relative z-10 my-auto font-display text-wordmark md:col-span-9 md:col-start-1 md:row-start-2 md:mt-auto md:mb-0 md:self-end"
         >
           {brand.name}
         </h1>
@@ -128,11 +129,31 @@ export function Hero() {
           <p data-hero="paragraph" className="max-w-[34ch] text-cream/80">
             {hero.paragraph}
           </p>
+          <p
+            data-hero="badge"
+            className="inline-flex items-center gap-2.5 rounded-full border border-ember-400/50 bg-pine-950/40 px-4 py-2 label text-ember-300 backdrop-blur-sm"
+          >
+            <span aria-hidden className="pulse-ring relative size-2 rounded-full bg-ember-400" />
+            {hero.badge}
+          </p>
           <div data-hero="cta">
             <Button href={hero.secondaryCta.href} variant="outline" className="text-cream">
               {hero.secondaryCta.label}
             </Button>
           </div>
+          <AnchorLink
+            href={hero.builtHref}
+            data-hero="badge"
+            className="group inline-flex items-center gap-2 label text-cream/85 underline decoration-cream/30 underline-offset-[6px] transition-colors hover:text-cream hover:decoration-cream"
+          >
+            {hero.builtLine}
+            <span
+              aria-hidden
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </AnchorLink>
         </div>
 
         <div
