@@ -30,11 +30,11 @@ function KasauliPage() {
     <>
       <Hero />
       <Intro />
+      <Inside />
+      <Construction />
       <Glance />
       <Kasauli />
       <Cottages />
-      <Construction />
-      <Inside />
       {/* Mist sits on the joins where the theme changes most */}
       <MistBand />
       <WhyHere />

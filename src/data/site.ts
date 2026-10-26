@@ -68,11 +68,11 @@ export const contact = {
 export const sections = [
   { id: 'top', label: 'Top', theme: 'night' },
   { id: 'intro', label: 'Intro', theme: 'mist' },
+  { id: 'inside', label: 'Inside', theme: 'linen' },
+  { id: 'custom', label: 'Under construction', theme: 'linen' },
   { id: 'glance', label: 'At a glance', theme: 'mist' },
   { id: 'kasauli', label: 'Kasauli', theme: 'day' },
   { id: 'cottages', label: 'Designs', theme: 'day' },
-  { id: 'custom', label: 'Under construction', theme: 'linen' },
-  { id: 'inside', label: 'Inside', theme: 'linen' },
   { id: 'why', label: 'Why here', theme: 'ember' },
   { id: 'life', label: 'Life here', theme: 'ember' },
   { id: 'builder', label: 'Builder', theme: 'stone' },
