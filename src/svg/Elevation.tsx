@@ -2,7 +2,7 @@ import type { JSX } from 'react'
 import type { CottageType } from '@/data/types'
 
 /**
- * Line-drawn elevations of the three cottage types (EKJAP_PLAN.md §9.4).
+ * Line-drawn elevations of the three designs: a cottage, an apartment block and a farmhouse (EKJAP_PLAN.md §9.4).
  * Main strokes use currentColor, secondary strokes are halved in opacity
  * (the `soft` group) and glazing / lit windows use the ember accent. Phase 3
  * draws the paths in with DrawSVG, so every stroke is a plain <path> or <line>.
@@ -10,87 +10,81 @@ import type { CottageType } from '@/data/types'
 
 const ground = 'M20 330 H580'
 
-function Pine() {
-  return (
-    <>
-      <g className="soft" opacity={0.45}>
-        <path d={ground} />
-        <path d="M500 330 L520 250 L540 330 M505 300 L520 235 L535 300 M510 270 L520 215 L530 270" />
-        <path d="M545 330 L558 280 L571 330 M549 308 L558 262 L567 308" />
-        <path d="M232 262 H368" />
-      </g>
-      <path d="M150 330 L300 60 L450 330" />
-      <path d="M176 330 L300 100 L424 330" />
-      <path d="M350 118 V48 H368 V130" />
-      <path d="M345 48 H373" />
-      <g className="glazing" stroke="var(--color-ember-400)">
-        <path d="M200 330 L300 150 L400 330" />
-        <path d="M300 150 V330" />
-        <path d="M241 240 H359" />
-        <path d="M222 290 H378" />
-      </g>
-      <path d="M50 312 H156 M50 312 V338 M150 312 V330 M50 288 H156 M50 288 V312 M85 288 V312 M120 288 V312 M156 288 V312" />
-    </>
-  )
-}
-
-function Ridge() {
-  return (
-    <>
-      <g opacity={0.45}>
-        <path d="M20 215 L150 235 M460 235 L580 292" />
-        <path d={ground} />
-        <path d="M150 255 H460 M150 276 H460 M150 297 H460 M150 316 H460" />
-        <path d="M190 255 V276 M262 255 V276 M338 255 V276 M410 255 V276 M222 276 V297 M300 276 V297 M372 276 V297 M436 276 V297 M180 297 V316 M258 297 V316 M334 297 V316 M416 297 V316" />
-      </g>
-      <path d="M150 330 V235 H460 V330" />
-      <path d="M180 235 V150 H430 V235" />
-      <path d="M165 150 H445 M165 143 H445" />
-      <path
-        d="M180 143 V136 M205 143 V133 M232 143 V137 M262 143 V132 M300 143 V136 M338 143 V131 M372 143 V137 M402 143 V133"
-        opacity={0.45}
-      />
-      <g className="glazing" stroke="var(--color-ember-400)">
-        <path d="M200 170 H410 V235 H200 Z" />
-        <path d="M252 170 V235 M305 170 V235 M357 170 V235" />
-      </g>
-      <path d="M60 330 H100 V313 H140 V296 H150" opacity={0.6} />
-    </>
-  )
-}
-
-function Deodar() {
+function Cottage() {
   return (
     <>
       <g opacity={0.45}>
         <path d={ground} />
-        <path d="M30 330 L48 250 L66 330 M34 300 L48 232 L62 300 M38 270 L48 210 L58 270" />
-        <path d="M555 330 L572 262 L589 330 M560 300 L572 244 L584 300" />
+        <path d="M486 330 L504 250 L522 330 M491 300 L504 232 L517 300 M496 270 L504 212 L512 270" />
+        <path d="M535 330 L550 282 L565 330 M540 308 L550 264 L560 308" />
+        <path d="M40 330 V304 M70 330 V304 M100 330 V304 M130 330 V304 M40 312 H130" />
       </g>
-      <path d="M150 330 V270 M250 330 V270 M350 330 V270 M450 330 V270" />
-      <path d="M120 270 H500 M120 258 H500" />
-      <path
-        d="M120 232 H500 M120 232 V258 M170 232 V258 M220 232 V258 M270 232 V258 M320 232 V258 M370 232 V258 M420 232 V258 M470 232 V258 M500 232 V258"
-        opacity={0.55}
-      />
-      <path d="M200 258 V180 H400 V258" />
-      <path d="M180 180 L300 118 L420 180" />
+      <path d="M190 330 V215 H410 V330" />
+      <path d="M165 215 L300 120 L435 215 H165" />
+      <path d="M355 150 V108 H385 V178 M350 108 H390" />
+      <path d="M285 330 V262 H320 V330" />
+      <path d="M270 330 H335" opacity={0.6} />
       <g className="glazing" stroke="var(--color-ember-400)">
-        <path d="M225 205 H275 V245 H225 Z M250 205 V245" />
-        <path d="M330 205 H380 V245 H330 Z" />
+        <path d="M215 245 H260 V290 H215 Z M237 245 V290" />
+        <path d="M345 245 H390 V290 H345 Z M367 245 V290" />
+        <path d="M286 168 a14 14 0 1 0 28 0 a14 14 0 1 0 -28 0" />
       </g>
+    </>
+  )
+}
+
+function Apartment() {
+  return (
+    <>
+      <g opacity={0.45}>
+        <path d={ground} />
+        <path d="M60 330 L78 250 L96 330 M65 300 L78 232 L91 300" />
+        <path d="M505 330 L523 250 L541 330 M510 300 L523 232 L536 300" />
+      </g>
+      <path d="M160 330 V80 H440 V330" />
+      <path d="M150 80 H450 M170 80 V66 H430 V80" />
+      <path d="M160 142 H440 M160 204 H440 M160 266 H440" opacity={0.6} />
       <path
-        d="M500 270 L548 330 M500 282 H520 M520 282 V294 H532 M532 294 V306 H544 M544 306 V318 H556"
+        d="M172 142 H252 M172 128 H252 M172 128 V142 M252 128 V142 M348 142 H428 M348 128 H428 M348 128 V142 M428 128 V142 M172 204 H252 M172 190 H252 M172 190 V204 M252 190 V204 M348 204 H428 M348 190 H428 M348 190 V204 M428 190 V204 M172 266 H252 M172 252 H252 M172 252 V266 M252 252 V266 M348 266 H428 M348 252 H428 M348 252 V266 M428 252 V266"
         opacity={0.6}
       />
+      <path d="M280 330 V286 H320 V330 M300 286 V330" />
+      <g className="glazing" stroke="var(--color-ember-400)">
+        <path d="M185 94 H235 V126 H185 Z M345 94 H395 V126 H345 Z M265 94 H315 V126 H265 Z M185 156 H235 V188 H185 Z M345 156 H395 V188 H345 Z M265 156 H315 V188 H265 Z M185 218 H235 V250 H185 Z M345 218 H395 V250 H345 Z M265 218 H315 V250 H265 Z" />
+        <path d="M185 280 H235 V310 H185 Z M365 280 H415 V310 H365 Z" />
+      </g>
+    </>
+  )
+}
+
+function Farmhouse() {
+  return (
+    <>
+      <g opacity={0.45}>
+        <path d={ground} />
+        <path d="M30 330 V302 M58 330 V302 M30 310 H58" />
+        <path d="M540 330 L558 250 L576 330 M545 300 L558 232 L571 300" />
+        <path d="M130 305 H450" />
+      </g>
+      <path d="M110 330 V240 H490 V330" />
+      <path d="M80 240 L150 170 H450 L520 240 H80" />
+      <path d="M260 170 L300 130 L340 170" />
+      <path d="M420 170 V125 H448 V170 M415 125 H453" />
+      <path d="M100 262 H500" />
+      <path d="M130 330 V262 M210 330 V262 M290 330 V262 M370 330 V262 M450 330 V262" />
+      <path d="M235 330 V285 H265 V330" />
+      <g className="glazing" stroke="var(--color-ember-400)">
+        <path d="M285 146 H315 V168 H285 Z M300 146 V168" />
+        <path d="M150 285 H190 V315 H150 Z M310 285 H350 V315 H310 Z M390 285 H430 V315 H390 Z" />
+      </g>
     </>
   )
 }
 
 const drawings: Record<CottageType, () => JSX.Element> = {
-  pine: Pine,
-  ridge: Ridge,
-  deodar: Deodar,
+  cottage: Cottage,
+  apartment: Apartment,
+  farmhouse: Farmhouse,
 }
 
 export function Elevation({

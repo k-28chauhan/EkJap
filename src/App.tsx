@@ -4,7 +4,7 @@ import { Nav } from '@/components/layout/Nav'
 import { Preloader } from '@/components/layout/Preloader'
 import { MistBand } from '@/components/motion/MistBand'
 import { goa } from '@/data/goa'
-import { common, meta } from '@/data/site'
+import { common, contact, meta } from '@/data/site'
 import { useSectionTheme } from '@/hooks/useSectionTheme'
 import { ScrollTrigger } from '@/lib/gsap'
 import { SmoothScroll } from '@/lib/SmoothScroll'
@@ -15,13 +15,19 @@ import { Construction } from '@/sections/Construction'
 import { Cottages } from '@/sections/Cottages'
 import { Enquire } from '@/sections/Enquire/Enquire'
 import { Glance } from '@/sections/Glance'
-import { GoaDetails, GoaHero } from '@/sections/Goa/Goa'
+import { GoaGallery, GoaHero } from '@/sections/Goa/Goa'
 import { Hero } from '@/sections/Hero/Hero'
 import { Inside } from '@/sections/Inside'
 import { Intro } from '@/sections/Intro'
 import { Kasauli } from '@/sections/Kasauli/Kasauli'
 import { LifeHere } from '@/sections/LifeHere'
 import { WhyHere } from '@/sections/WhyHere'
+
+const kasauliLocation = {
+  address: contact.address.value,
+  note: contact.siteVisits.value,
+  map: contact.map,
+}
 
 /** The main page: the Kasauli project. */
 function KasauliPage() {
@@ -42,7 +48,7 @@ function KasauliPage() {
       <MistBand />
       <Builder />
       <MistBand />
-      <Enquire />
+      <Enquire location={kasauliLocation} />
       <MistBand />
     </>
   )
@@ -54,11 +60,11 @@ function GoaPage() {
   return (
     <>
       <GoaHero />
-      <GoaDetails />
+      <GoaGallery />
       <MistBand />
       <Builder />
       <MistBand />
-      <Enquire />
+      <Enquire location={goa.location} look={goa.enquire} />
       <MistBand />
     </>
   )

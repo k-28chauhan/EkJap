@@ -2,8 +2,7 @@ import { FadeUp } from '@/components/motion/FadeUp'
 import { RevealImage } from '@/components/motion/RevealImage'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { SmallPrint } from '@/components/ui/SmallPrint'
-import { amenities, amenitiesSmallPrint } from '@/data/amenities'
+import { amenities } from '@/data/amenities'
 import { life } from '@/data/site'
 
 /**
@@ -17,7 +16,6 @@ export function LifeHere() {
         <div className="md:col-span-4">
           <div className="md:sticky md:top-[calc(var(--nav-h)+3rem)]">
             <SectionHeader id="life-title" label={life.label} title={life.title} />
-            <SmallPrint className="mt-8">{amenitiesSmallPrint}</SmallPrint>
           </div>
         </div>
 

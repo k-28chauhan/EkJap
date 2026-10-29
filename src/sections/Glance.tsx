@@ -3,7 +3,6 @@ import { DrawSvg } from '@/components/motion/DrawSvg'
 import { FadeUp } from '@/components/motion/FadeUp'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { SmallPrint } from '@/components/ui/SmallPrint'
 import { glance } from '@/data/site'
 import { cn } from '@/lib/cn'
 import { Contours } from '@/svg/Contours'
@@ -64,8 +63,6 @@ export function Glance() {
             )
           })}
         </dl>
-
-        <SmallPrint className="mt-16 md:mt-24">{glance.smallPrint}</SmallPrint>
       </div>
     </Section>
   )

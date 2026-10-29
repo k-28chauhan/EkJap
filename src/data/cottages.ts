@@ -3,7 +3,7 @@ import type { CottageType, ImageRef } from './types'
 /**
  * (Elevation drawings and placeholder floor plans are components in src/svg,
  * keyed by `id`.)
- * The three cottage types (EKJAP_PLAN.md §9.4). Counts, layouts and sizes are
+ * The three designs (EKJAP_PLAN.md §9.4). Counts, layouts and sizes are
  * sample numbers until the client confirms them. Exterior images are
  * representative: they always carry the "Representative image" caption.
  */
@@ -12,6 +12,8 @@ export interface Cottage {
   id: CottageType
   index: string // "01 / 03"
   name: string
+  /** How the WhatsApp message names it, e.g. "the cottage" */
+  topic: string
   form: string // the building form, shown beside the name
   count: number
   layout: string
@@ -26,71 +28,73 @@ export interface Cottage {
 export const cottagesSection = {
   label: 'Design ideas',
   title: 'Three ways to *come home*',
-  copy: 'Three sample designs, each set to the slope and turned to the valley. Nothing at EkJap Samruddhi is fixed yet, so each can be changed, or replaced with a design of your own.',
+  copy: 'Three designs to start from: a cottage, an apartment and a farmhouse. Nothing at EkJap Samruddhi is fixed yet, so each can be changed, or replaced with a design of your own.',
   specLabels: { layout: 'Layout', area: 'Built-up area', price: 'Price', unit: 'sq ft' },
-  smallPrint: 'Sample designs and figures. Floor plans are placeholders.',
   viewPlan: 'View plan',
   closeModal: 'Close',
   planModalTitle: 'Floor plan',
-  planPlaceholder: 'Placeholder plan, to be replaced with the architect’s drawing.',
 } as const
 
 export const cottages: Cottage[] = [
   {
-    id: 'pine',
+    id: 'cottage',
     index: '01 / 03',
-    name: 'The Pine',
-    form: 'A-frame',
+    name: 'Cottage',
+    topic: 'the cottage',
+    form: 'Pitched roof, timber and stone',
     count: 6,
-    layout: '2 bed + loft',
+    layout: '2 bed',
     builtUpSqFt: 1150,
     price: 'On request',
     description:
-      'An A-frame with a double-height glass gable facing the valley. A sleeping loft under the ridge beam, and a deck that fits six chairs and a fire bowl.',
+      'A pitched-roof cottage with a covered porch and a hearth for cold evenings, set among the trees. A snug home for a small family, or a weekend retreat.',
     image: {
       src: 'cottages/cottage-01-pine-aframe.jpg',
       alt: 'A pair of A-frame cottages among pine trees',
       caption: 'Representative image',
     },
-    askLabel: 'Ask about The Pine',
+    askLabel: 'Ask about the cottage',
     sample: true,
   },
   {
-    id: 'ridge',
+    id: 'apartment',
     index: '02 / 03',
-    name: 'The Ridge',
-    form: 'Stone + timber, set into the slope',
+    name: 'Apartment',
+    topic: 'the apartment',
+    form: 'Low-rise block with balconies',
     count: 5,
-    layout: '3–4 bed',
-    builtUpSqFt: 1850,
+    layout: '2–3 bed',
+    builtUpSqFt: 1250,
     price: 'On request',
     description:
-      'A family home set into the slope, with a dry-laid stone base and a planted roof. Floor-to-ceiling glass on the south face.',
+      'A low-rise apartment with a balcony on the valley side and the same warm finishes as our other homes. Easy to look after when you are away.',
     image: {
-      src: 'cottages/cottage-02-ridge-stone.jpg',
-      alt: 'Stepped stone and timber homes on terraces',
+      src: 'cottages/cottage-02-apartment.jpg',
+      alt: 'A five-storey apartment building at night, with lit balconies, red balustrades and a covered ground-floor lounge',
+      position: '58% center',
       caption: 'Representative image',
     },
-    askLabel: 'Ask about The Ridge',
+    askLabel: 'Ask about the apartment',
     sample: true,
   },
   {
-    id: 'deodar',
+    id: 'farmhouse',
     index: '03 / 03',
-    name: 'The Deodar',
-    form: 'Cabin on posts',
+    name: 'Farmhouse',
+    topic: 'the farmhouse',
+    form: 'Long, low house with a veranda',
     count: 3,
-    layout: '1–2 bed',
-    builtUpSqFt: 780,
+    layout: '3–4 bed',
+    builtUpSqFt: 2400,
     price: 'On request',
     description:
-      'A compact cabin raised among the trees, with a wraparound deck nearly half its floor area. Built for two.',
+      'A long, low farmhouse with a wide veranda along the front and room for a garden. Made for family gatherings and slow weekends.',
     image: {
-      src: 'cottages/cottage-03-deodar-cabin.jpg',
-      alt: 'Small cabins with decks on a hillside',
+      src: 'cottages/cottage-03-farmhouse.jpg',
+      alt: 'A single-storey house with a tiled roof, stone-clad walls, a covered porch and a front garden with flowers',
       caption: 'Representative image',
     },
-    askLabel: 'Ask about The Deodar',
+    askLabel: 'Ask about the farmhouse',
     sample: true,
   },
 ]

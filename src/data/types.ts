@@ -1,7 +1,7 @@
 /** Section themes (EKJAP_PLAN.md §0, §6.3). Each maps to a [data-theme] block in index.css. */
 export type Theme = 'night' | 'mist' | 'day' | 'linen' | 'ember' | 'stone' | 'dusk'
 
-export type CottageType = 'pine' | 'ridge' | 'deodar'
+export type CottageType = 'cottage' | 'apartment' | 'farmhouse'
 
 /**
  * A source image under /assets/images. `src` is the path relative to that folder

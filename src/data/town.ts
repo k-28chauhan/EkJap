@@ -1,3 +1,4 @@
+import { projects } from './site'
 import type { ImageRef } from './types'
 
 /**
@@ -93,12 +94,9 @@ export const postcards: Postcard[] = [
 
 export const postcardsLabel = 'Places around Kasauli'
 
-export const townSmallPrint = 'Distances are approximate and will be verified before launch.'
-
 export const route = {
   label: 'The drive',
   title: 'Up from the *plains*',
-  smallPrint: 'Drive times are approximate.',
   /** In order, from the plains to the ridge. `minutes` is cumulative from Chandigarh. */
   stops: [
     { id: 'chandigarh', name: 'Chandigarh', minutes: 0 },
@@ -108,5 +106,12 @@ export const route = {
     { id: 'kasauli', name: 'Kasauli', minutes: 95 },
     { id: 'ekjap', name: 'EkJap', minutes: 105 },
   ],
+  /** A turn-off from the main route to the finished project; its drive time is not known yet, so none is shown */
+  branch: {
+    id: 'himalayan-dreams',
+    name: projects.built.name,
+    from: 'dharampur',
+    note: 'Turn off at Dharampur',
+  },
   sample: true,
 } as const

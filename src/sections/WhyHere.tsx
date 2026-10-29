@@ -2,7 +2,6 @@ import { FadeUp } from '@/components/motion/FadeUp'
 import { Img } from '@/components/ui/Img'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { SmallPrint } from '@/components/ui/SmallPrint'
 import { why } from '@/data/site'
 
 /**
@@ -42,8 +41,6 @@ export function WhyHere() {
             </li>
           ))}
         </FadeUp>
-
-        <SmallPrint className="mt-10">{why.smallPrint}</SmallPrint>
       </div>
     </Section>
   )

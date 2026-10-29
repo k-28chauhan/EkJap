@@ -7,8 +7,9 @@ import { intro } from '@/data/site'
 
 /**
  * "A window above the clouds". On desktop the three heading lines are spread
- * over a portrait photo so the middle word sits on the glass; on mobile the
- * heading is one block above the photo.
+ * over a portrait photo so the middle word sits on the glass, in white; the other
+ * two lines sit just clear of the photo, so dark type never lands on the dark
+ * image. On mobile the heading is one block above the photo.
  */
 export function Intro() {
   const [top, middle, bottom] = intro.titleLines
@@ -20,15 +21,15 @@ export function Intro() {
           {intro.label}
         </FadeUp>
 
-        <div className="relative mx-auto flex max-w-[64rem] flex-col md:grid md:place-items-center">
+        <div className="relative mx-auto flex max-w-[64rem] flex-col md:grid md:place-items-center md:py-[1.1em] md:text-[clamp(4rem,8.6vw,9rem)]">
           <SplitHeading
             id="intro-title"
-            className="font-display text-h2 text-balance md:z-10 md:col-start-1 md:row-start-1 md:flex md:h-[calc(100%+9rem)] md:w-full md:flex-col md:items-center md:justify-between md:py-0 md:text-[clamp(4rem,8.6vw,9rem)] md:leading-[0.9]"
+            className="font-display text-h2 text-balance md:z-10 md:col-start-1 md:row-start-1 md:flex md:h-[calc(100%+2.2em)] md:w-full md:flex-col md:items-center md:justify-between md:py-0 md:text-[1em] md:leading-[0.9]"
           >
             <span className="md:block">
               <RichTitle text={top} />{' '}
             </span>
-            <span className="md:block md:text-cream">
+            <span className="md:block md:text-[#fff]">
               <RichTitle text={middle} />{' '}
             </span>
             <span className="md:block">

@@ -1,9 +1,9 @@
 import { FadeUp } from '@/components/motion/FadeUp'
 import { Button } from '@/components/ui/Button'
 import { RichTitle } from '@/components/ui/RichTitle'
+import { RevealImage } from '@/components/motion/RevealImage'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { SmallPrint } from '@/components/ui/SmallPrint'
 import { construction, projects } from '@/data/site'
 
 /**
@@ -74,7 +74,25 @@ export function Construction() {
           </FadeUp>
         </div>
 
-        <SmallPrint className="mt-8">{construction.smallPrint}</SmallPrint>
+        <div className="mt-14 md:mt-20">
+          <p className="label text-muted">{construction.siteLabel}</p>
+          <div className="mt-6 grid gap-6 md:grid-cols-[1.78fr_0.8fr_0.8fr] md:items-start md:gap-8">
+            {construction.photos.map((photo, i) => (
+              <figure key={photo.src}>
+                <RevealImage
+                  image={photo}
+                  ratio={i === 0 ? '16/9' : '4/5'}
+                  position={'position' in photo ? photo.position : undefined}
+                  sizes={
+                    i === 0 ? '(min-width: 900px) 54vw, 100vw' : '(min-width: 900px) 24vw, 100vw'
+                  }
+                  className="rounded-card"
+                />
+                <figcaption className="mt-3 label text-muted">{photo.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
       </div>
     </Section>
   )

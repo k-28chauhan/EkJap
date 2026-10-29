@@ -8,7 +8,6 @@ import { confirmed, sample, type ImageRef, type Theme } from './types'
 
 export const brand = {
   name: 'EkJap',
-  legalName: sample('EkJap Builders (legal name to be confirmed)'),
   tagline: 'Built above the mist',
   location: 'Kasauli, Himachal Pradesh',
   /** Exact site / village to be confirmed with the client */
@@ -33,8 +32,8 @@ export const projects = {
     /** Shown under the name in the Inside banner */
     facts: ['48 apartments', '2 cottages'],
   },
-  /** The Goa project, shown when "Goa" is chosen in the nav */
-  goa: { name: 'Paradise Farms', facts: ['17 apartments'] },
+  /** The Goa project, completed; shown when "Goa" is chosen in the nav */
+  goa: { name: 'EkJap Paradise Palms', facts: ['17 apartments'] },
 } as const
 
 export const meta = {
@@ -105,7 +104,6 @@ export const hero = {
   tagline: 'Built above the mist',
   paragraph:
     'A new address in the Kasauli hills, at the height where the clouds come to rest. Under two hours from Chandigarh.',
-  paragraphSample: true, // drive time to be confirmed
   primaryCta: 'Book a site visit',
   secondaryCta: { label: 'See the designs', href: '#cottages' },
   image: {
@@ -154,7 +152,6 @@ export const intro = {
 export const glance = {
   label: 'At a glance',
   title: 'The ridge, in *numbers*',
-  smallPrint: 'Sample figures, to be replaced with surveyed numbers.',
   stats: [
     {
       id: 'altitude',
@@ -180,7 +177,7 @@ export const glance = {
       display: '3',
       format: 'number',
       unit: '',
-      label: 'sample designs to start from',
+      label: 'designs to start from',
       sample: true,
     },
     {
@@ -213,7 +210,6 @@ export const construction = {
   label: `${projects.current.name} · Under construction`,
   title: 'Being built now, *built your way*',
   copy: `${projects.current.name} is under construction, so nothing here is set in stone. Tell us what you want built, a home, an apartment or anything else, and we will build it that way.`,
-  copySample: true,
   kicker: 'Our new project',
   statusTitle: 'Under construction',
   line: 'Being built now in Kasauli. Tell us what you need, and make it yours.',
@@ -228,17 +224,33 @@ export const construction = {
     { title: 'The finishes', text: 'Colours, fittings and fixtures, down to the handles.' },
   ],
   cta: 'Tell us how you’d like yours',
-  smallPrint: 'Draft copy, to be confirmed with the builder.',
+  siteLabel: 'From the site',
+  photos: [
+    {
+      src: 'construction/site-01-clearing.jpg',
+      alt: `Two excavators clearing rock and soil from a cut in the green hillside at ${projects.current.name}`,
+      caption: 'Clearing the site',
+    },
+    {
+      src: 'construction/site-02-materials.jpg',
+      alt: `Stacked timber and bamboo poles under a red tarpaulin, beside a white water tank, on the ${projects.current.name} site, with pine-covered hills under a clear blue sky`,
+      caption: 'Materials on site',
+      position: 'center 85%',
+    },
+    {
+      src: 'construction/site-03-machines.jpg',
+      alt: `A yellow backhoe loader and a tipper truck on the cleared red earth at ${projects.current.name}, with a heap of gravel in front and green hills behind`,
+      caption: 'Machines at work',
+      position: 'center 85%',
+    },
+  ] satisfies ImageRef[],
 } as const
 
 export const inside = {
   label: `${projects.built.name} · Already built`,
   title: 'Inside, it’s *warm*',
   copy: `These rooms are from ${projects.built.name}, our last project: timber walls, warm light, and wood in every room. Your home can be fitted in the same spirit, or in whatever spirit you choose.`,
-  /** Confirm with the client that these are their own finished homes */
-  copySample: true,
   quote: 'A house in the hills should feel like it was always there.',
-  quoteSample: true,
   /** The banner that opens the section: Himalayan Dreams, the finished project, set apart */
   project: {
     kicker: 'Our last project',
@@ -246,8 +258,45 @@ export const inside = {
     line: 'Already built, and the best way to see how we build. Step inside.',
     cta: { label: 'Build yours the same way', href: '#enquire' },
   },
+  /** Photographs of the people who bought at Himalayan Dreams; each keeps its own shape (`ratio` is width/height of the file) */
+  customers: {
+    label: 'Our customers',
+    title: 'The people who *call it home*',
+    copy: `Customers of ${projects.built.name}, in their new homes.`,
+    photos: [
+      {
+        src: 'customers/customer-01.jpg',
+        alt: `A smiling couple standing beside a brown front door at ${projects.built.name}`,
+        ratio: '960/956',
+      },
+      {
+        src: 'customers/customer-02.jpg',
+        alt: 'A group of people at a key handover, with a man in a red turban and a woman in a pink outfit holding the keys together',
+        ratio: '960/639',
+      },
+      {
+        src: 'customers/customer-03.jpg',
+        alt: 'Three smiling people standing together in a bright, empty room',
+        ratio: '1032/581',
+      },
+      {
+        src: 'customers/customer-04.jpg',
+        alt: 'A key handover: a man in a blue shirt and orange scarf passes a smiley-face keyring to a smiling woman, with a man in a blue turban beside her',
+        ratio: '1280/852',
+      },
+      {
+        src: 'customers/customer-05.jpg',
+        alt: 'Four people on a balcony, one of them opening a dark wooden front door, with a rock face behind them',
+        ratio: '960/540',
+      },
+      {
+        src: 'customers/customer-06.jpg',
+        alt: 'A smiling man in a patterned cap holding up a small bag with a red token inside',
+        ratio: '639/960',
+      },
+    ] satisfies (ImageRef & { ratio: string })[],
+  },
   seeAll: 'See all photos',
-  smallPrint: `Interiors are from ${projects.built.name}, the builder’s completed project (to be confirmed).`,
   photos: [
     {
       src: 'inside/inside-01-lounge-fireplace.jpg',
@@ -323,9 +372,7 @@ export const why = {
       text: 'Each plot is oriented to the valley.',
     },
   ],
-  /** Card copy is a draft; confirm each claim with the client */
   sample: true,
-  smallPrint: 'Draft copy, to be confirmed with the builder.',
 } as const
 
 export const life = {
@@ -337,8 +384,7 @@ export const life = {
 export const builder = {
   label: 'The builder',
   title: 'Open for *construction* contracts',
-  copy: `EkJap takes contracts to build anything: apartments, cottages, villas and more, from first drawings to handover. ${projects.built.name} (48 apartments and 2 cottages) is complete, ${projects.goa.name} in Goa has 17 apartments, and ${projects.current.name} is the next.`,
-  copySample: true,
+  copy: `EkJap takes contracts to build anything: apartments, cottages, villas and more, from first drawings to handover. ${projects.built.name} (48 apartments and 2 cottages) and ${projects.goa.name} in Goa (17 apartments) are complete, and ${projects.current.name} is the next.`,
   image: {
     src: 'builder/builder-01-past-project.jpg',
     alt: `The dining area and lounge at ${projects.built.name}, with a chandelier, a long glass-topped table and timber-slab walls`,
@@ -350,7 +396,6 @@ export const builder = {
     { id: 'apartments', value: sample('60+'), label: 'apartments delivered' },
     { id: 'locations', value: confirmed('3'), label: 'locations' },
   ],
-  smallPrint: 'Figures are samples until confirmed.',
 } as const
 
 export const enquire = {
@@ -413,7 +458,6 @@ export const footer = {
 } as const
 
 export const common = {
-  sampleNote: 'sample',
   representative: 'Representative image',
   skipLink: 'Skip to content',
   openMenu: 'Open menu',

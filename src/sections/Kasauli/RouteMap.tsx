@@ -1,8 +1,7 @@
-import { useRef } from 'react'
+import { Fragment, useRef } from 'react'
 import { FadeUp } from '@/components/motion/FadeUp'
 import { SplitHeading } from '@/components/motion/SplitHeading'
 import { RichTitle } from '@/components/ui/RichTitle'
-import { SmallPrint } from '@/components/ui/SmallPrint'
 import { route } from '@/data/town'
 import { cn } from '@/lib/cn'
 import { gsap } from '@/lib/gsap'
@@ -18,7 +17,7 @@ function formatMinutes(total: number) {
 }
 
 const W = 1200
-const H = 280
+const H = 340
 const PAD = 90
 /** Hand-set heights give the route its wandering line; x comes from the drive time. */
 const heights = [200, 150, 190, 110, 150, 80]
@@ -44,6 +43,11 @@ const pathData = points
     return `C${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${p.x.toFixed(1)} ${p.y}`
   })
   .join(' ')
+
+/** The turn-off: leaves the main road at its `from` stop and drops away to the lower right. */
+const branchStart = points.find((p) => p.id === route.branch.from) ?? points[0]
+const branchEnd = { x: branchStart.x + 66, y: 252 }
+const branchPath = `M${branchStart.x} ${branchStart.y} C${branchStart.x} ${branchStart.y + 62} ${branchEnd.x - 36} ${branchEnd.y - 34} ${branchEnd.x} ${branchEnd.y}`
 
 /** The fraction of the path's length at which it reaches `x` (the path only ever moves right). */
 function fractionAtX(path: SVGPathElement, x: number) {
@@ -94,6 +98,25 @@ export function RouteMap() {
       )
     })
 
+    // The turn-off draws once the route has reached its junction
+    const branch = svg.querySelector<SVGPathElement>('[data-route="branch"]')
+    const branchStop = svg.querySelector<SVGGElement>('[data-route="branch-stop"]')
+    if (branch && branchStop) {
+      const junction = fractionAtX(line, branchStart.x)
+      timeline.from(branch, { drawSVG: '0%', duration: 0.14 }, junction)
+      timeline.from(
+        branchStop,
+        {
+          opacity: 0,
+          scale: 0.3,
+          svgOrigin: `${branchEnd.x} ${branchEnd.y}`,
+          duration: 0.07,
+          ease: 'back.out(2.2)',
+        },
+        junction + 0.1,
+      )
+    }
+
     // The EkJap dot keeps a slow amber halo going once it has appeared
     if (glow) {
       gsap.fromTo(
@@ -127,17 +150,29 @@ export function RouteMap() {
         {route.stops.map((stop, i) => {
           const last = i === route.stops.length - 1
           return (
-            <li key={stop.id} className="relative pb-9 last:pb-0">
-              <span
-                aria-hidden
-                className={cn(
-                  'absolute top-2 -left-[2.5rem] size-3 rounded-full border',
-                  last ? 'border-ember-400 bg-ember-400 shadow-ember' : 'border-fg/60 bg-bg',
-                )}
-              />
-              <span className="font-display text-3xl">{stop.name}</span>
-              <span className="mt-1 block label text-muted">{formatMinutes(stop.minutes)}</span>
-            </li>
+            <Fragment key={stop.id}>
+              <li className="relative pb-9 last:pb-0">
+                <span
+                  aria-hidden
+                  className={cn(
+                    'absolute top-2 -left-[2.5rem] size-3 rounded-full border',
+                    last ? 'border-ember-400 bg-ember-400 shadow-ember' : 'border-fg/60 bg-bg',
+                  )}
+                />
+                <span className="font-display text-3xl">{stop.name}</span>
+                <span className="mt-1 block label text-muted">{formatMinutes(stop.minutes)}</span>
+              </li>
+              {stop.id === route.branch.from && (
+                <li className="relative -mt-3 pb-9 pl-6">
+                  <span
+                    aria-hidden
+                    className="absolute top-2 -left-[2.5rem] h-px w-[2.5rem] [translate:0_0.25rem] bg-fg/40"
+                  />
+                  <span className="font-display text-2xl">{route.branch.name}</span>
+                  <span className="mt-1 block label text-muted">{route.branch.note}</span>
+                </li>
+              )}
+            </Fragment>
           )
         })}
       </FadeUp>
@@ -169,6 +204,57 @@ export function RouteMap() {
           strokeWidth={2}
           strokeLinecap="round"
         />
+        {/* The turn-off to the finished project */}
+        <path
+          d={branchPath}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          strokeDasharray="2 7"
+          strokeLinecap="round"
+          opacity={0.4}
+        />
+        <path
+          data-route="branch"
+          d={branchPath}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+        />
+        <g data-route="branch-stop">
+          <circle
+            cx={branchEnd.x}
+            cy={branchEnd.y}
+            r={6.5}
+            fill="var(--bg)"
+            stroke="currentColor"
+            strokeWidth={2}
+          />
+          <text
+            x={branchEnd.x}
+            y={branchEnd.y + 40}
+            textAnchor="middle"
+            fill="currentColor"
+            style={{ fontFamily: 'var(--font-display)', fontSize: 26 }}
+          >
+            {route.branch.name}
+          </text>
+          <text
+            x={branchEnd.x}
+            y={branchEnd.y + 62}
+            textAnchor="middle"
+            fill="var(--muted)"
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 12,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+            }}
+          >
+            {route.branch.note}
+          </text>
+        </g>
         {points.map((p, i) => {
           const last = i === points.length - 1
           const above = i % 2 === 1
@@ -223,8 +309,6 @@ export function RouteMap() {
           )
         })}
       </svg>
-
-      <SmallPrint className="mt-10">{route.smallPrint}</SmallPrint>
     </div>
   )
 }

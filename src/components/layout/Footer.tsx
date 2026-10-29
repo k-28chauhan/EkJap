@@ -1,8 +1,17 @@
+import { goa } from '@/data/goa'
 import { contact, footer, nav } from '@/data/site'
+import { useView } from '@/lib/view'
 import { AnchorLink } from '../ui/AnchorLink'
 import { whatsappUrl } from '@/lib/whatsapp'
 
+/** The address and its map link follow the project being viewed, Kasauli or Goa. */
 export function Footer() {
+  const view = useView()
+  const place =
+    view === 'goa'
+      ? { address: goa.location.address, map: goa.location.map }
+      : { address: contact.address.value, map: contact.map }
+
   return (
     <footer
       data-theme="night"
@@ -21,21 +30,18 @@ export function Footer() {
                   WhatsApp
                 </a>
               </li>
-              <li>
-                <a href={`mailto:${contact.email.value}`}>{contact.email.value}</a>
-              </li>
             </ul>
           </div>
           <div>
             <h2 className="mb-5 label text-muted">{footer.columns.address}</h2>
-            <address className="max-w-[32ch] measure not-italic">{contact.address.value}</address>
+            <address className="max-w-[32ch] measure not-italic">{place.address}</address>
             <a
-              href={contact.map.link}
+              href={place.map.link}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-block underline decoration-current/40 underline-offset-4 hover:decoration-current"
             >
-              {contact.map.label} ↗
+              {place.map.label} ↗
             </a>
           </div>
           <div>

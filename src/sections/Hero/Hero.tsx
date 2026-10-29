@@ -176,7 +176,6 @@ export function Hero() {
               {altitude.ridge.value.toLocaleString('en-IN')}
             </span>{' '}
             m {hero.altitudeLabel}
-            <span className="ml-1.5 opacity-60">· sample</span>
           </p>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { Img } from '@/components/ui/Img'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { contact, enquire } from '@/data/site'
+import type { ImageRef } from '@/data/types'
 import { useEnquiryPrefill } from '@/lib/enquiryStore'
 import { enquirySchema, type EnquiryValues } from '@/lib/enquirySchema'
 import { submitEnquiry } from '@/lib/submitEnquiry'
@@ -24,7 +25,27 @@ const defaults: EnquiryValues = {
 
 type Status = 'idle' | 'success' | 'error'
 
-export function Enquire() {
+export interface EnquireLocation {
+  address: string
+  /** An extra line under the address, e.g. when site visits happen */
+  note?: string
+  map: { link: string; embed: string; label: string; title: string }
+}
+
+/** The heading and photograph behind the section; the Kasauli ones are the default */
+export interface EnquireLook {
+  title: string
+  background: ImageRef
+}
+
+/** Each page passes its own project's address, map and look: Kasauli's on the Kasauli page, Goa's on the Goa page. */
+export function Enquire({
+  location,
+  look = enquire,
+}: {
+  location: EnquireLocation
+  look?: EnquireLook
+}) {
   const form = useForm<EnquiryValues>({
     resolver: zodResolver(enquirySchema),
     mode: 'onTouched',
@@ -63,9 +84,9 @@ export function Enquire() {
   return (
     <Section id="enquire" theme="dusk" local labelledBy="enquire-title" className="overflow-hidden">
       <Img
-        image={enquire.background}
+        image={look.background}
         sizes="100vw"
-        position="center 100%"
+        position={look.background.position ?? 'center 100%'}
         className="absolute inset-0 h-full"
       />
       {/* Top and bottom melt into the neighbouring sections; the left scrim keeps the copy legible */}
@@ -80,7 +101,7 @@ export function Enquire() {
 
       <div className="relative wrap grid gap-14 md:grid-cols-12 md:items-start md:gap-x-12">
         <div className="flex flex-col gap-10 md:col-span-6">
-          <SectionHeader id="enquire-title" label={enquire.label} title={enquire.title} />
+          <SectionHeader id="enquire-title" label={enquire.label} title={look.title} />
 
           <div className="flex flex-col items-start gap-6">
             <Button
@@ -114,25 +135,26 @@ export function Enquire() {
             </div>
 
             <ul className="space-y-1.5 text-muted">
-              <li>{contact.address.value}</li>
-              <li>{contact.siteVisits.value}</li>
+              <li>{location.address}</li>
+              {location.note && <li>{location.note}</li>}
             </ul>
 
             <div className="w-full">
               <iframe
-                src={contact.map.embed}
-                title={contact.map.title}
+                key={location.map.embed}
+                src={location.map.embed}
+                title={location.map.title}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="aspect-[16/10] w-full rounded-card border border-cream/20 bg-pine-950/40"
               />
               <a
-                href={contact.map.link}
+                href={location.map.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block label text-cream underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
               >
-                {contact.map.label} ↗
+                {location.map.label} ↗
               </a>
             </div>
           </div>

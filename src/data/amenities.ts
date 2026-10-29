@@ -44,5 +44,3 @@ export const amenities: Amenity[] = [
     },
   },
 ]
-
-export const amenitiesSmallPrint = 'Amenities are indicative and to be confirmed.'

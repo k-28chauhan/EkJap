@@ -2,8 +2,7 @@ import { FadeUp } from '@/components/motion/FadeUp'
 import { RevealImage } from '@/components/motion/RevealImage'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { SmallPrint } from '@/components/ui/SmallPrint'
-import { brand, builder } from '@/data/site'
+import { builder } from '@/data/site'
 
 export function Builder() {
   return (
@@ -40,12 +39,6 @@ export function Builder() {
               </div>
             ))}
           </FadeUp>
-
-          <FadeUp>
-            <p className="text-muted">{brand.legalName.value}</p>
-          </FadeUp>
-
-          {builder.copySample && <SmallPrint>{builder.smallPrint}</SmallPrint>}
         </div>
       </div>
     </Section>

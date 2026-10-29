@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { Img } from '@/components/ui/Img'
-import { SmallPrint } from '@/components/ui/SmallPrint'
-import { postcards, postcardsLabel, townSmallPrint } from '@/data/town'
+import { postcards, postcardsLabel } from '@/data/town'
 import { cn } from '@/lib/cn'
 import { gsap } from '@/lib/gsap'
 import { useMotion } from '@/lib/useMotion'
@@ -201,7 +200,6 @@ export function PostcardRow() {
           </span>
         </div>
         <div data-gallery="hairline" aria-hidden className="mt-6 hairline-t md:mt-10" />
-        <SmallPrint className="mt-4 md:mt-10">{townSmallPrint}</SmallPrint>
       </div>
     </div>
   )

@@ -1,47 +1,46 @@
 import { FadeUp } from '@/components/motion/FadeUp'
-import { RevealImage } from '@/components/motion/RevealImage'
 import { SplitHeading } from '@/components/motion/SplitHeading'
 import { Button } from '@/components/ui/Button'
+import { Img } from '@/components/ui/Img'
+import { RichTitle } from '@/components/ui/RichTitle'
+import { PhotoGrid, type PhotoSlot } from '@/components/ui/PhotoGrid'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { SmallPrint } from '@/components/ui/SmallPrint'
 import { goa } from '@/data/goa'
 import { prefillEnquiry } from '@/lib/enquiryStore'
 
-/** The Goa project's opening screen. A typographic hero for now: there are no Goa photographs yet. */
+/** The Goa project's opening screen: EkJap Paradise Palms, a completed project, over its entrance photograph. */
 export function GoaHero() {
   return (
     <Section id="goa" theme="night" local flush labelledBy="goa-title" className="overflow-hidden">
+      <Img image={goa.image} priority sizes="100vw" className="absolute inset-0 h-full" />
+      {/* Scrims keep the copy legible over the bright photograph */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-pine-950 via-pine-900 to-pine-950"
+        className="absolute inset-0 bg-gradient-to-t from-pine-950/85 via-pine-950/10 to-pine-950/25"
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-3/5 bg-[radial-gradient(ellipse_at_30%_100%,rgb(233_163_92/0.16),transparent_65%)]"
+        className="absolute inset-0 bg-gradient-to-r from-pine-950/35 via-transparent to-transparent"
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-[4%] h-[42%] overflow-hidden opacity-70 [--fog:rgb(185_189_180/0.28)]"
-      >
-        <div className="mist-layer" />
-        <div className="mist-layer" data-slow />
-      </div>
 
-      <div className="relative wrap flex min-h-[88svh] flex-col justify-end gap-6 pt-[calc(var(--nav-h)+3rem)] pb-16 md:pb-24">
-        <FadeUp as="p" className="label text-cream/80">
-          {goa.eyebrow}
+      <div className="relative wrap flex min-h-[88svh] flex-col justify-end gap-4 pt-[calc(var(--nav-h)+3rem)] pb-12 md:pb-16">
+        <FadeUp className="flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-2.5 rounded-full border border-cream/40 px-4 py-2 label text-cream">
+            <span aria-hidden className="size-2 rounded-full bg-cream" />
+            {goa.status}
+          </span>
+          <p className="label text-cream/85">{goa.eyebrow}</p>
         </FadeUp>
         <SplitHeading
           as="h1"
           id="goa-title"
-          className="font-display text-[clamp(3.5rem,11vw,11rem)] leading-[0.9] tracking-[-0.03em] text-cream"
+          className="font-display text-[clamp(1.75rem,3.2vw,3.25rem)] leading-[1.05] tracking-[-0.015em] text-balance text-cream"
         >
-          {goa.title}
+          <RichTitle text={goa.heading} />
         </SplitHeading>
         <FadeUp delay={0.2} className="flex max-w-[40rem] flex-col items-start gap-6">
-          <p className="font-display text-h3 text-cream italic">{goa.tagline}</p>
-          <p className="max-w-[44ch] text-cream/80">{goa.paragraph}</p>
+          <p className="max-w-[44ch] text-cream/85">{goa.paragraph}</p>
           <div className="flex flex-wrap items-center gap-3">
             <Button href="#enquire" onClick={() => prefillEnquiry({ topic: goa.title })}>
               {goa.ask}
@@ -56,33 +55,38 @@ export function GoaHero() {
   )
 }
 
-/** Placeholder photograph slots and a "coming soon" note. */
-export function GoaDetails() {
-  const { details } = goa
+/** Landscape-friendly slots: the pairs are sized to the same height (7 : 5 columns at 16/10 : 8/7). */
+const galleryLayout: PhotoSlot[] = [
+  { span: 'md:col-span-12', ratio: '2/1' },
+  { span: 'md:col-span-6', ratio: '4/3' },
+  { span: 'md:col-span-6', ratio: '4/3' },
+  { span: 'md:col-span-7', ratio: '16/10' },
+  { span: 'md:col-span-5', ratio: '8/7' },
+  { span: 'md:col-span-5', ratio: '8/7' },
+  { span: 'md:col-span-7', ratio: '16/10' },
+  { span: 'md:col-span-6', ratio: '4/3' },
+  { span: 'md:col-span-6', ratio: '4/3' },
+  { span: 'md:col-span-7', ratio: '16/10' },
+  { span: 'md:col-span-5', ratio: '8/7' },
+]
+
+/** Photographs of the finished building, in the order: building, pool, open spaces, rooms, the rest. */
+export function GoaGallery() {
+  const { gallery } = goa
   return (
-    <Section id="goa-details" theme="mist" labelledBy="goa-details-title">
+    <Section id="goa-gallery" theme="linen" labelledBy="goa-gallery-title">
       <div className="wrap">
         <SectionHeader
-          id="goa-details-title"
-          label={details.label}
-          title={details.title}
-          copy={details.copy}
+          id="goa-gallery-title"
+          label={gallery.label}
+          title={gallery.title}
+          copy={gallery.copy}
         />
-        <div className="mt-14 grid gap-6 md:mt-20 md:grid-cols-3">
-          {details.photos.map((photo) => (
-            <figure key={photo.src}>
-              <RevealImage
-                image={photo}
-                ratio="4/5"
-                sizes="(min-width: 900px) 30vw, 100vw"
-                parallax
-                className="rounded-xl"
-              />
-              <figcaption className="mt-3 label text-muted">{photo.caption}</figcaption>
-            </figure>
-          ))}
-        </div>
-        <SmallPrint className="mt-12">{details.smallPrint}</SmallPrint>
+        <PhotoGrid
+          photos={gallery.photos}
+          layout={galleryLayout}
+          className="mt-14 md:mt-24 md:items-start"
+        />
       </div>
     </Section>
   )

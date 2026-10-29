@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/Button'
 import { Modal } from '@/components/ui/Modal'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { SmallPrint } from '@/components/ui/SmallPrint'
 import { cottageById, cottages, cottagesSection } from '@/data/cottages'
 import { common } from '@/data/site'
 import type { CottageType } from '@/data/types'
@@ -210,7 +209,7 @@ export function Cottages() {
                       <Button
                         href="#enquire"
                         variant="outline"
-                        onClick={() => prefillEnquiry({ topic: cottage.name })}
+                        onClick={() => prefillEnquiry({ topic: cottage.topic })}
                       >
                         {cottage.askLabel}
                       </Button>
@@ -228,6 +227,7 @@ export function Cottages() {
                     <RevealImage
                       image={{ ...cottage.image, caption: common.representative }}
                       ratio="4/5"
+                      position={cottage.image.position}
                       sizes="(min-width: 900px) 46vw, 100vw"
                       parallax
                       showCaption
@@ -241,10 +241,6 @@ export function Cottages() {
         </div>
       </MotionInertContext.Provider>
 
-      <div className="wrap">
-        <SmallPrint className="mt-6">{cottagesSection.smallPrint}</SmallPrint>
-      </div>
-
       <Modal
         open={planOf !== null}
         onClose={() => setPlanOf(null)}
@@ -254,7 +250,6 @@ export function Cottages() {
         {planCottage && (
           <>
             <FloorPlan id={planCottage.id} className="w-full text-ink-900" />
-            <p className="mt-5 label text-stone-500">{cottagesSection.planPlaceholder}</p>
           </>
         )}
       </Modal>
