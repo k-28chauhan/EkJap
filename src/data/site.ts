@@ -1,3 +1,4 @@
+import logo from '../assets/ekjap-group-logo.png'
 import { confirmed, sample, type ImageRef, type Theme } from './types'
 
 /**
@@ -29,11 +30,9 @@ export const projects = {
   built: {
     name: 'Himalayan Dreams',
     display: 'Himalayan *Dreams*',
-    /** Shown under the name in the Inside banner */
-    facts: ['48 apartments', '2 cottages'],
   },
   /** The Goa project, completed; shown when "Goa" is chosen in the nav */
-  goa: { name: 'EkJap Paradise Palms', facts: ['17 apartments'] },
+  goa: { name: 'EkJap Paradise Palms' },
 } as const
 
 export const meta = {
@@ -46,8 +45,8 @@ export const meta = {
 
 export const contact = {
   /** wa.me format: country code + number, digits only */
-  whatsapp: confirmed('917696002999'),
-  phone: confirmed('+91 76960 02999'),
+  whatsapp: confirmed('917696004999'),
+  phone: confirmed('+91 76960 04999'),
   email: sample('hello@ekjap.example'),
   address: confirmed(
     'EkJap Samruddhi, Subathu Road, Dharampur, Anji, Kasauli, Himachal Pradesh 173209',
@@ -57,9 +56,20 @@ export const contact = {
   map: {
     link: 'https://maps.app.goo.gl/hUJCNJfKJYCCPjrFA?g_st=iw',
     embed:
-      'https://maps.google.com/maps?q=EkJap+Samruddhi,+Subathu+Road,+Dharampur,+Anji,+Kasauli,+Himachal+Pradesh+173209&output=embed',
+      'https://maps.google.com/maps?q=EkJap+Samruddhi,+Subathu+Road,+Dharampur,+Anji,+Kasauli,+Himachal+Pradesh+173209&t=k&output=embed',
     label: 'Open in Google Maps',
     title: 'Map showing the location of EkJap Samruddhi near Kasauli',
+  },
+  /** Himalayan Dreams, the finished project: shown beside the EkJap Samruddhi map on the Kasauli page */
+  builtLocation: {
+    address: 'Himalayan Dreams, Gulhari, Himachal Pradesh 173225',
+    map: {
+      link: 'https://maps.app.goo.gl/BSeXNmGNLHiiSCBB8?g_st=iw',
+      embed:
+        'https://maps.google.com/maps?q=Himalayan+Dreams,+Gulhari,+Himachal+Pradesh+173225&t=k&output=embed',
+      label: 'Open in Google Maps',
+      title: 'Map showing the location of Himalayan Dreams in Gulhari',
+    },
   },
 } as const
 
@@ -84,7 +94,7 @@ export const nav = {
    * Goa project only when "Goa" is chosen (see src/lib/view.ts).
    */
   links: [
-    { label: 'Kasauli', href: '#kasauli', view: 'kasauli' },
+    { label: 'Kasauli', href: '#inside', view: 'kasauli' },
     { label: 'Goa', href: '#goa', view: 'goa' },
     { label: 'Builder', href: '#builder', view: null },
   ],
@@ -101,6 +111,8 @@ export const altitude = {
 export const hero = {
   eyebrow: `${projects.current.name} · ${projects.current.place}`,
   title: 'EkJap',
+  /** Set under the wordmark, one line each */
+  caption: ['Dream a home in the lap of nature…', '…Leave the rest to us'],
   tagline: 'Built above the mist',
   paragraph:
     'A new address in the Kasauli hills, at the height where the clouds come to rest. Under two hours from Chandigarh.',
@@ -304,11 +316,6 @@ export const inside = {
       caption: 'Lounge · timber-slab walls',
     },
     {
-      src: 'inside/inside-02-bathroom-tiles.jpg',
-      alt: 'A bathroom with patterned tiles, a framed mirror and a dark stone basin',
-      caption: 'Bathroom · patterned tiles',
-    },
-    {
       src: 'inside/inside-06-verandah.jpg',
       alt: 'A verandah with timber-framed mesh doors, a cane chair and a hanging swing seat',
       caption: 'Verandah · timber-framed doors',
@@ -383,8 +390,10 @@ export const life = {
 
 export const builder = {
   label: 'The builder',
+  /** The company logo, a transparent PNG for light backgrounds (so it is imported directly, not through the photo pipeline) */
+  logo: { src: logo, alt: 'EkJap Group logo', width: 497, height: 307 },
   title: 'Open for *construction* contracts',
-  copy: `EkJap takes contracts to build anything: apartments, cottages, villas and more, from first drawings to handover. ${projects.built.name} (48 apartments and 2 cottages) and ${projects.goa.name} in Goa (17 apartments) are complete, and ${projects.current.name} is the next.`,
+  copy: `EkJap takes contracts to build anything: apartments, cottages, villas and more, from first drawings to handover. ${projects.built.name} and ${projects.goa.name} in Goa are complete, and ${projects.current.name} is the next.`,
   image: {
     src: 'builder/builder-01-past-project.jpg',
     alt: `The dining area and lounge at ${projects.built.name}, with a chandelier, a long glass-topped table and timber-slab walls`,
@@ -392,8 +401,6 @@ export const builder = {
   } satisfies ImageRef,
   numbers: [
     { id: 'years', value: confirmed('30+'), label: 'years building' },
-    /** The apartments at Himalayan Dreams; confirm the total delivered with the client */
-    { id: 'apartments', value: sample('60+'), label: 'apartments delivered' },
     { id: 'locations', value: confirmed('3'), label: 'locations' },
   ],
 } as const
@@ -452,7 +459,7 @@ export const footer = {
     address: 'Address',
     links: 'Links',
   },
-  disclaimer: `${projects.current.name} is under construction and can be customised. Exterior images are representative and will be replaced with renders of the final design. Interiors are from ${projects.built.name}, the builder’s completed project. Specifications and figures are indicative.`,
+  disclaimer: `${projects.current.name} is under construction and can be customised. Exterior images are representative. Interiors are from ${projects.built.name}, the builder’s completed project.`,
   privacy: { label: 'Privacy policy', href: '#' },
   copyright: (year: number) => `© ${year} EkJap`,
 } as const

@@ -7,6 +7,7 @@ import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { contact, enquire } from '@/data/site'
 import type { ImageRef } from '@/data/types'
+import { cn } from '@/lib/cn'
 import { useEnquiryPrefill } from '@/lib/enquiryStore'
 import { enquirySchema, type EnquiryValues } from '@/lib/enquirySchema'
 import { submitEnquiry } from '@/lib/submitEnquiry'
@@ -32,6 +33,30 @@ export interface EnquireLocation {
   map: { link: string; embed: string; label: string; title: string }
 }
 
+/** A map with its link underneath. */
+function LocationMap({ map, className }: { map: EnquireLocation['map']; className?: string }) {
+  return (
+    <div className={cn('w-full', className)}>
+      <iframe
+        key={map.embed}
+        src={map.embed}
+        title={map.title}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        className="aspect-[16/10] w-full rounded-card border border-cream/20 bg-pine-950/40"
+      />
+      <a
+        href={map.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-3 inline-block label text-cream underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
+      >
+        {map.label} ↗
+      </a>
+    </div>
+  )
+}
+
 /** The heading and photograph behind the section; the Kasauli ones are the default */
 export interface EnquireLook {
   title: string
@@ -41,9 +66,12 @@ export interface EnquireLook {
 /** Each page passes its own project's address, map and look: Kasauli's on the Kasauli page, Goa's on the Goa page. */
 export function Enquire({
   location,
+  extraLocation,
   look = enquire,
 }: {
   location: EnquireLocation
+  /** A second place, set under the form so its map sits beside the first */
+  extraLocation?: EnquireLocation
   look?: EnquireLook
 }) {
   const form = useForm<EnquiryValues>({
@@ -99,11 +127,11 @@ export function Enquire({
         className="absolute inset-0 bg-gradient-to-r from-dusk-800/85 via-dusk-800/40 to-dusk-800/10"
       />
 
-      <div className="relative wrap grid gap-14 md:grid-cols-12 md:items-start md:gap-x-12">
+      <div className="relative wrap grid gap-14 md:grid-cols-12 md:items-stretch md:gap-x-12">
         <div className="flex flex-col gap-10 md:col-span-6">
           <SectionHeader id="enquire-title" label={enquire.label} title={look.title} />
 
-          <div className="flex flex-col items-start gap-6">
+          <div className="flex flex-col items-start gap-6 md:flex-1">
             <Button
               href={whatsappUrl(
                 prefill.topic ? enquire.whatsapp.topic.replace('{what}', prefill.topic) : undefined,
@@ -139,34 +167,26 @@ export function Enquire({
               {location.note && <li>{location.note}</li>}
             </ul>
 
-            <div className="w-full">
-              <iframe
-                key={location.map.embed}
-                src={location.map.embed}
-                title={location.map.title}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="aspect-[16/10] w-full rounded-card border border-cream/20 bg-pine-950/40"
-              />
-              <a
-                href={location.map.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-block label text-cream underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
-              >
-                {location.map.label} ↗
-              </a>
-            </div>
+            <LocationMap map={location.map} className="md:mt-auto" />
           </div>
         </div>
 
-        <FadeUp className="md:col-span-6">
-          {status === 'success' ? (
-            <SuccessCard />
-          ) : (
-            <EnquiryForm form={form} onSubmit={onSubmit} failed={status === 'error'} />
+        <div className="flex flex-col gap-10 md:col-span-6">
+          <FadeUp>
+            {status === 'success' ? (
+              <SuccessCard />
+            ) : (
+              <EnquiryForm form={form} onSubmit={onSubmit} failed={status === 'error'} />
+            )}
+          </FadeUp>
+
+          {extraLocation && (
+            <div className="flex flex-col items-start gap-6">
+              <p className="text-muted">{extraLocation.address}</p>
+              <LocationMap map={extraLocation.map} />
+            </div>
           )}
-        </FadeUp>
+        </div>
       </div>
     </Section>
   )

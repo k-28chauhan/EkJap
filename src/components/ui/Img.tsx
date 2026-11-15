@@ -65,7 +65,6 @@ export function Img({
           aria-label={image.alt}
           className="flex h-full min-h-40 w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-fg/10 to-fg/5 p-4 text-center"
         >
-          <span className="label text-muted">Photo to come</span>
           <span className="max-w-[28ch] font-display text-lg leading-snug text-fg/70 italic">
             {image.caption ?? image.alt}
           </span>

@@ -3,17 +3,17 @@ import type { ImageRef } from './types'
 
 /**
  * The Goa project view (client brief, Oct 2026): shown only when "Goa" is chosen in
- * the nav. EkJap Paradise Palms is a completed project of 17 apartments; the client
+ * the nav. EkJap Paradise Palms is a completed project; the client
  * has supplied one photograph so far (the entrance wall).
  */
 export const goa = {
   metaTitle: `${projects.goa.name}, Goa`,
   status: 'Completed',
-  eyebrow: `${projects.goa.facts.join(' · ')} · Goa`,
+  eyebrow: 'Goa',
   title: projects.goa.name,
   /** The hero heading: the photograph already carries the project's name */
   heading: 'Our project in *Goa*',
-  paragraph: `${projects.goa.name} is complete: ${projects.goa.facts[0]} in Goa, built by EkJap.`,
+  paragraph: `${projects.goa.name} is complete, built by EkJap in Goa.`,
   image: {
     src: 'goa/goa-01-paradise-palms.jpg',
     alt: `The entrance wall of ${projects.goa.name} in Goa: brass lettering on dark stone, a stone Buddha statue, brass lamps and a banyan tree behind`,
@@ -23,7 +23,7 @@ export const goa = {
     map: {
       link: 'https://maps.app.goo.gl/bb7Gb91oaX2TBkei6?g_st=iw',
       embed:
-        'https://maps.google.com/maps?q=Ekjap+Paradise+Palms,+EKJAP+PARADISE+PALMS,+64/16,+AMBEA+KENI,+Nerul,+Goa+403114&output=embed',
+        'https://maps.google.com/maps?q=Ekjap+Paradise+Palms,+EKJAP+PARADISE+PALMS,+64/16,+AMBEA+KENI,+Nerul,+Goa+403114&t=k&output=embed',
       label: 'Open in Google Maps',
       title: `Map showing the location of ${projects.goa.name} in Nerul, Goa`,
     },
@@ -31,7 +31,7 @@ export const goa = {
   gallery: {
     label: `${projects.goa.name} · Already built`,
     title: 'A look *around*',
-    copy: `The building, the pool, the open spaces and the rooms of ${projects.goa.name}: ${projects.goa.facts[0]} in Goa.`,
+    copy: `The building, the pool, the open spaces and the rooms of ${projects.goa.name}.`,
     /** In order: the building, the pool, the open spaces, then the rooms and the rest */
     photos: [
       {
@@ -73,11 +73,6 @@ export const goa = {
         src: 'goa/goa-09-balcony.jpg',
         alt: 'A balcony at sunset with wicker armchairs and a hanging egg chair, looking over trees',
         caption: 'Balcony',
-      },
-      {
-        src: 'goa/goa-10-bathroom.jpg',
-        alt: 'A bathroom with marble-look tiles in a geometric pattern, a brass-framed mirror and a timber vanity with a basin',
-        caption: 'Bathroom',
       },
       {
         src: 'goa/goa-11-lobby.jpg',

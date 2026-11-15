@@ -1,5 +1,5 @@
 import { goa } from '@/data/goa'
-import { contact, footer, nav } from '@/data/site'
+import { builder, contact, footer, nav } from '@/data/site'
 import { useView } from '@/lib/view'
 import { AnchorLink } from '../ui/AnchorLink'
 import { whatsappUrl } from '@/lib/whatsapp'
@@ -59,12 +59,25 @@ export function Footer() {
           </div>
         </div>
 
-        <p
-          aria-hidden
-          className="mt-10 mb-[0.04em] pt-[0.22em] font-display text-[clamp(4.5rem,20vw,20rem)] leading-[0.8] tracking-[-0.04em] text-cream select-none"
-        >
-          {footer.wordmark}
-        </p>
+        <div className="mt-14 mb-10 flex flex-col gap-8 md:mt-20 md:flex-row md:items-end md:justify-between md:gap-12">
+          <p
+            aria-hidden
+            className="mb-[0.04em] pt-[0.22em] font-display text-[clamp(3rem,11vw,11rem)] leading-[0.8] tracking-[-0.04em] text-cream select-none"
+          >
+            {footer.wordmark}
+          </p>
+          {/* The logo's navy lettering needs a light ground, so it sits on a cream card */}
+          <div className="shrink-0 self-start rounded-card bg-cream p-4 md:self-auto md:p-5">
+            <img
+              src={builder.logo.src}
+              alt={builder.logo.alt}
+              width={builder.logo.width}
+              height={builder.logo.height}
+              loading="lazy"
+              className="h-auto w-40 md:w-48"
+            />
+          </div>
+        </div>
 
         <div className="flex flex-col gap-4 pt-6 text-sm text-muted hairline-t md:flex-row md:justify-between md:gap-12">
           <p className="max-w-[70ch]">{footer.disclaimer}</p>

@@ -18,6 +18,17 @@ export function Builder() {
         </div>
 
         <div className="flex flex-col gap-12 md:col-span-7 md:pt-4">
+          <FadeUp>
+            <img
+              src={builder.logo.src}
+              alt={builder.logo.alt}
+              width={builder.logo.width}
+              height={builder.logo.height}
+              loading="lazy"
+              className="h-auto w-48 md:w-56"
+            />
+          </FadeUp>
+
           <SectionHeader
             id="builder-title"
             label={builder.label}
@@ -28,7 +39,7 @@ export function Builder() {
           <FadeUp
             as="dl"
             stagger={0.1}
-            className="grid grid-cols-3 gap-4 border-y border-line py-6"
+            className="grid grid-cols-2 gap-4 border-y border-line py-6"
           >
             {builder.numbers.map((item) => (
               <div key={item.id}>

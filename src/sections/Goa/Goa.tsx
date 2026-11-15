@@ -64,8 +64,7 @@ const galleryLayout: PhotoSlot[] = [
   { span: 'md:col-span-5', ratio: '8/7' },
   { span: 'md:col-span-5', ratio: '8/7' },
   { span: 'md:col-span-7', ratio: '16/10' },
-  { span: 'md:col-span-6', ratio: '4/3' },
-  { span: 'md:col-span-6', ratio: '4/3' },
+  { span: 'md:col-span-12', ratio: '2/1' },
   { span: 'md:col-span-7', ratio: '16/10' },
   { span: 'md:col-span-5', ratio: '8/7' },
 ]

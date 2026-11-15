@@ -48,7 +48,7 @@ function KasauliPage() {
       <MistBand />
       <Builder />
       <MistBand />
-      <Enquire location={kasauliLocation} />
+      <Enquire location={kasauliLocation} extraLocation={contact.builtLocation} />
       <MistBand />
     </>
   )
@@ -73,7 +73,7 @@ function GoaPage() {
 export default function App() {
   const view = useView()
 
-  // Switching view lands at the top, or on the anchor that was asked for (e.g. #kasauli).
+  // Switching view lands at the top, or on the anchor that was asked for (e.g. #inside).
   // The pinned sections change the page height as they set up, so land once early and
   // again after the layout has settled (unless the visitor has already scrolled on).
   useEffect(() => {

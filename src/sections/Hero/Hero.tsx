@@ -111,13 +111,25 @@ export function Hero() {
           </p>
         </div>
 
-        <h1
-          id="hero-title"
-          data-hero="wordmark"
-          className="wordmark-lift relative z-10 my-auto font-display text-wordmark md:col-span-9 md:col-start-1 md:row-start-2 md:mt-auto md:mb-0 md:self-end"
-        >
-          {brand.name}
-        </h1>
+        <div className="relative z-10 my-auto md:col-span-9 md:col-start-1 md:row-start-2 md:mt-auto md:mb-0 md:self-end">
+          <h1
+            id="hero-title"
+            data-hero="wordmark"
+            className="wordmark-lift font-display text-wordmark"
+          >
+            {brand.name}
+          </h1>
+          {/* The outer element fades away on scroll with the other copy; the inner one eases in on load */}
+          <div data-hero="copy" className="mt-4 md:mt-6">
+            <p
+              data-hero="badge"
+              className="wordmark-lift-soft flex flex-col font-display text-[clamp(1.05rem,2vw,1.85rem)] leading-snug text-cream italic"
+            >
+              <span>{hero.caption[0]}</span>
+              <span className="pl-[1.6em]">{hero.caption[1]}</span>
+            </p>
+          </div>
+        </div>
 
         <div
           data-hero="copy"
@@ -126,7 +138,7 @@ export function Hero() {
           <p data-hero="tagline" className="font-display text-h3 text-cream italic">
             {hero.tagline}
           </p>
-          <p data-hero="paragraph" className="max-w-[34ch] text-cream/80">
+          <p data-hero="paragraph" className="hidden max-w-[34ch] text-cream/80 md:block">
             {hero.paragraph}
           </p>
           <p

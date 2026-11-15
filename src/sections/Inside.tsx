@@ -19,7 +19,6 @@ const layout: PhotoSlot[] = [
   { span: 'md:col-span-4 md:mt-16', ratio: '1/1' },
   { span: 'md:col-span-4 md:-mt-8', ratio: '4/5' },
   { span: 'md:col-span-7 md:col-start-1', ratio: '16/10' },
-  { span: 'md:col-span-4 md:col-start-1 md:self-center', ratio: '1/1' },
   { span: 'md:col-span-8 md:col-start-5', ratio: '16/10' },
 ]
 
@@ -43,7 +42,6 @@ export function Inside() {
             <p className="mt-4 font-display text-[clamp(2.75rem,7vw,6.5rem)] leading-[0.95] tracking-[-0.02em] text-balance">
               <RichTitle text={projects.built.display} />
             </p>
-            <p className="mt-5 label text-cream/75">{projects.built.facts.join(' · ')}</p>
           </div>
           <div className="flex flex-col items-start gap-6 md:max-w-[26rem] md:items-end md:text-right">
             <span className="inline-flex items-center gap-2.5 rounded-full border border-cream/30 px-4 py-2 label">
