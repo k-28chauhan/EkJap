@@ -105,13 +105,16 @@ export function Hero() {
       )}
 
       <div className="relative wrap flex min-h-svh flex-col pt-[calc(var(--nav-h)+1.75rem)] pb-8 md:grid md:grid-cols-12 md:grid-rows-[auto_1fr_auto] md:gap-x-6 md:pt-[calc(var(--nav-h)+3rem)]">
-        <div data-hero="copy" className="relative z-30 md:col-span-4 md:col-start-9 md:row-start-1">
+        <div
+          data-hero="copy"
+          className="relative z-30 max-md:mt-10 md:col-span-4 md:col-start-9 md:row-start-1"
+        >
           <p data-hero="eyebrow" className="label text-cream/80">
             {hero.eyebrow}
           </p>
         </div>
 
-        <div className="relative z-10 my-auto md:col-span-9 md:col-start-1 md:row-start-2 md:mt-auto md:mb-0 md:self-end">
+        <div className="relative z-10 max-md:mt-12 md:col-span-9 md:col-start-1 md:row-start-2 md:my-auto md:mt-auto md:mb-0 md:self-end">
           <h1
             id="hero-title"
             data-hero="wordmark"
@@ -135,7 +138,7 @@ export function Hero() {
           data-hero="copy"
           className="relative z-30 mt-auto flex flex-col items-start gap-5 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6 md:self-start"
         >
-          <p data-hero="tagline" className="font-display text-h3 text-cream italic">
+          <p data-hero="tagline" className="hidden font-display text-h3 text-cream italic md:block">
             {hero.tagline}
           </p>
           <p data-hero="paragraph" className="hidden max-w-[34ch] text-cream/80 md:block">
@@ -173,7 +176,11 @@ export function Hero() {
           className="relative z-30 mt-10 grid grid-cols-3 items-end text-cream/80 md:col-span-12 md:row-start-3 md:mt-12"
         >
           <span aria-hidden />
-          <a data-hero="scroll" href="#intro" className="flex flex-col items-center gap-3 label">
+          <a
+            data-hero="scroll"
+            href="#intro"
+            className="hidden flex-col items-center gap-3 label md:flex"
+          >
             {hero.scroll}
             <span aria-hidden className="relative block h-12 w-px overflow-hidden bg-cream/40">
               <span data-hero="scroll-line" className="absolute inset-0 origin-top bg-cream/40" />
@@ -183,7 +190,7 @@ export function Hero() {
               />
             </span>
           </a>
-          <p data-hero="altitude" className="text-right label">
+          <p data-hero="altitude" className="col-start-3 text-right label">
             <span data-hero="altitude-value" className="tabular">
               {altitude.ridge.value.toLocaleString('en-IN')}
             </span>{' '}
