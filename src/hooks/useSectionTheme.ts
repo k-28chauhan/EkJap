@@ -4,20 +4,31 @@ type RGBA = [number, number, number, number]
 
 const KEYS = ['--bg', '--fg', '--muted', '--line'] as const
 
-/** Parses the colour forms our theme variables use: #rrggbb, rgb(r g b / a), rgba(r, g, b, a). */
-function parseColor(input: string): RGBA {
+const isColor = (color: RGBA) => color.every((channel) => Number.isFinite(channel))
+
+/**
+ * Parses the colour forms our theme variables use: #rrggbb, rgb(r g b / a), rgba(r, g, b, a).
+ * Returns null for anything else (an empty or unresolved value), so a bad read can never
+ * become a black palette.
+ */
+function parseColor(input: string): RGBA | null {
   const value = input.trim()
+  if (!value || value.includes('var(')) return null
+  let color: RGBA
   if (value.startsWith('#')) {
     const hex = value.length === 4 ? [...value.slice(1)].map((c) => c + c).join('') : value.slice(1)
-    return [
+    color = [
       parseInt(hex.slice(0, 2), 16),
       parseInt(hex.slice(2, 4), 16),
       parseInt(hex.slice(4, 6), 16),
       hex.length === 8 ? parseInt(hex.slice(6, 8), 16) / 255 : 1,
     ]
+  } else {
+    const numbers = value.match(/[\d.]+/g)?.map(Number)
+    if (!numbers || numbers.length < 3) return null
+    color = [numbers[0], numbers[1], numbers[2], numbers[3] ?? 1]
   }
-  const numbers = value.match(/[\d.]+/g)?.map(Number) ?? [0, 0, 0]
-  return [numbers[0], numbers[1], numbers[2], numbers[3] ?? 1]
+  return isColor(color) ? color : null
 }
 
 const toCss = ([r, g, b, a]: RGBA) =>
@@ -41,13 +52,20 @@ export function useSectionTheme() {
       if (!sections.length) return
 
       // Read each palette from the static CSS before sync mode switches it off
-      const palettes = sections.map((section) => {
+      const read = sections.map((section) => {
         const style = getComputedStyle(section)
-        return KEYS.map((key) => parseColor(style.getPropertyValue(key))) as RGBA[]
+        return KEYS.map((key) => parseColor(style.getPropertyValue(key)))
       })
+      // If any colour could not be read, leave the sections on their own static themes
+      // rather than risk a wrong palette (a black page) while scrolling
+      if (read.some((palette) => palette.some((color) => !color))) return
+      const palettes = read as RGBA[][]
 
       const current = palettes[0].map((color) => [...color]) as RGBA[]
-      const write = () => KEYS.forEach((key, i) => root.style.setProperty(key, toCss(current[i])))
+      const write = () => {
+        if (!current.every(isColor)) return
+        KEYS.forEach((key, i) => root.style.setProperty(key, toCss(current[i])))
+      }
       write()
       root.setAttribute('data-theme-sync', '')
 
@@ -83,16 +101,39 @@ export function useSectionTheme() {
         })
       }
 
-      sections.forEach((section, index) => {
+      // Each section's theme begins at its trigger's start. The page shows the palette of the
+      // LAST section whose start has been passed, worked out from the scroll position itself.
+      // (Toggling on enter and leave is not enough: the Intro starts early, while the hero is
+      // still on screen, so scrolling back up could hand the page back to the hero's dark
+      // palette with the Intro in view.)
+      const starts = sections.map((section) =>
         ScrollTrigger.create({
           trigger: section,
           start: section.dataset.themeStart ?? 'top 50%',
           end: 'bottom 50%',
-          onToggle: (self) => self.isActive && apply(index),
+        }),
+      )
+
+      const reconcile = () => {
+        const y = window.scrollY
+        let index = 0
+        starts.forEach((trigger, i) => {
+          if (y >= trigger.start) index = i
         })
+        apply(index)
+      }
+      reconcile()
+
+      const watcher = ScrollTrigger.create({
+        start: 0,
+        end: 'max',
+        onUpdate: reconcile,
+        onRefresh: reconcile,
       })
 
       return () => {
+        watcher.kill()
+        starts.forEach((trigger) => trigger.kill())
         tween?.kill()
         root.removeAttribute('data-theme-sync')
         KEYS.forEach((key) => root.style.removeProperty(key))
