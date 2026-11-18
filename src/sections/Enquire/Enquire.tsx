@@ -10,8 +10,7 @@ import type { ImageRef } from '@/data/types'
 import { cn } from '@/lib/cn'
 import { useEnquiryPrefill } from '@/lib/enquiryStore'
 import { enquirySchema, type EnquiryValues } from '@/lib/enquirySchema'
-import { submitEnquiry } from '@/lib/submitEnquiry'
-import { whatsappUrl } from '@/lib/whatsapp'
+import { enquiryMailtoUrl, enquiryMessage, enquiryWhatsappUrl, whatsappUrl } from '@/lib/whatsapp'
 import { zodResolver } from '@/lib/zodResolver'
 import { EnquiryForm } from './EnquiryForm'
 import { SuccessCard } from './SuccessCard'
@@ -24,7 +23,11 @@ const defaults: EnquiryValues = {
   brochure: true,
 }
 
-type Status = 'idle' | 'success' | 'error'
+/** What the visitor sees after sending: the WhatsApp chat (and email) with their details typed in */
+interface Sent {
+  whatsappHref: string
+  emailHref: string | null
+}
 
 export interface EnquireLocation {
   address: string
@@ -65,10 +68,13 @@ export interface EnquireLook {
 
 /** Each page passes its own project's address, map and look: Kasauli's on the Kasauli page, Goa's on the Goa page. */
 export function Enquire({
+  project,
   location,
   extraLocation,
   look = enquire,
 }: {
+  /** The project of the page, named in the message the form sends */
+  project: string
   location: EnquireLocation
   /** A second place, set under the form so its map sits beside the first */
   extraLocation?: EnquireLocation
@@ -81,22 +87,25 @@ export function Enquire({
   })
   const prefill = useEnquiryPrefill()
   // The outcome belongs to the pre-fill it was made under, so a new "Ask about" click shows a fresh form
-  const [outcome, setOutcome] = useState<{ status: Status; prefillId: number }>({
-    status: 'idle',
+  const [outcome, setOutcome] = useState<{ sent: Sent | null; prefillId: number }>({
+    sent: null,
     prefillId: 0,
   })
   const [copied, setCopied] = useState<'idle' | 'done' | 'failed'>('idle')
 
-  const status: Status = outcome.prefillId === prefill.id ? outcome.status : 'idle'
+  const sent = outcome.prefillId === prefill.id ? outcome.sent : null
 
-  const onSubmit = form.handleSubmit(async (values) => {
-    try {
-      await submitEnquiry(values)
-      form.reset(defaults)
-      setOutcome({ status: 'success', prefillId: prefill.id })
-    } catch {
-      setOutcome({ status: 'error', prefillId: prefill.id })
-    }
+  // There is no server: the details go to the site's WhatsApp number as a message. The chat is
+  // opened straight away; the success card keeps a button in case the browser blocked it.
+  const onSubmit = form.handleSubmit((values) => {
+    const message = enquiryMessage(values, project, prefill.topic)
+    const whatsappHref = enquiryWhatsappUrl(message)
+    window.open(whatsappHref, '_blank', 'noopener,noreferrer')
+    form.reset(defaults)
+    setOutcome({
+      sent: { whatsappHref, emailHref: enquiryMailtoUrl(message) },
+      prefillId: prefill.id,
+    })
   })
 
   const copyNumber = async () => {
@@ -173,10 +182,10 @@ export function Enquire({
 
         <div className="flex flex-col gap-10 md:col-span-6">
           <FadeUp>
-            {status === 'success' ? (
-              <SuccessCard />
+            {sent ? (
+              <SuccessCard whatsappHref={sent.whatsappHref} emailHref={sent.emailHref} />
             ) : (
-              <EnquiryForm form={form} onSubmit={onSubmit} failed={status === 'error'} />
+              <EnquiryForm form={form} onSubmit={onSubmit} />
             )}
           </FadeUp>
 

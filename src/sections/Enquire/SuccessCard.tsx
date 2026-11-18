@@ -1,13 +1,21 @@
 import { useEffect, useRef } from 'react'
+import { Button } from '@/components/ui/Button'
 import { enquire } from '@/data/site'
 import { gsap, useGSAP } from '@/lib/gsap'
 
 /**
- * Shown in place of the form once an enquiry is sent: a lit cottage window, the
- * same motif as the hero's, and a short thank-you. Focus moves to the heading so
+ * Shown in place of the form once an enquiry is made: a lit cottage window, the
+ * same motif as the hero's, a short note, and the button that opens WhatsApp. Focus moves to the heading so
  * screen readers announce it.
  */
-export function SuccessCard() {
+export function SuccessCard({
+  whatsappHref,
+  emailHref,
+}: {
+  /** The WhatsApp chat with the enquiry typed in, in case the browser blocked it opening */
+  whatsappHref: string
+  emailHref: string | null
+}) {
   const root = useRef<HTMLDivElement>(null)
   const heading = useRef<HTMLHeadingElement>(null)
 
@@ -74,6 +82,23 @@ export function SuccessCard() {
       <p data-rise className="max-w-[34ch] measure text-muted">
         {enquire.success.text}
       </p>
+      <div data-rise className="flex flex-col items-center gap-4">
+        <Button
+          href={whatsappHref}
+          external
+          className="bg-[#25D366] text-pine-950 hover:bg-[#1fb957]"
+        >
+          {enquire.success.openWhatsapp}
+        </Button>
+        {emailHref && (
+          <a
+            href={emailHref}
+            className="label underline decoration-current/40 underline-offset-4 hover:decoration-current"
+          >
+            {enquire.success.email}
+          </a>
+        )}
+      </div>
     </div>
   )
 }

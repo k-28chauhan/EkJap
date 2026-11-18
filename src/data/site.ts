@@ -433,12 +433,23 @@ export const enquire = {
     brochure: { label: 'Send me the brochure and price list on WhatsApp' },
   },
   submit: 'Request a site visit',
-  sending: 'Sending…',
   success: {
-    title: 'Someone’s home.',
-    text: 'Thank you. We’ll message you on WhatsApp to fix a time for your visit.',
+    title: 'One last step',
+    text: 'WhatsApp should have opened with your details ready. Tap Send, and we’ll message you back to fix a time for your visit.',
+    openWhatsapp: 'Open WhatsApp',
+    email: 'Send by email instead',
   },
-  failure: 'Something went wrong. Please try again, or message us on WhatsApp.',
+  /** The message the form composes; {project} is the project of the page the visitor is on */
+  request: {
+    intro: 'Hello EkJap, I’d like to request a site visit at {project}.',
+    emailSubject: 'Site visit request',
+    name: 'Name',
+    mobile: 'Mobile',
+    visit: 'Visit',
+    visitOn: 'On {date}',
+    interest: 'Interested in',
+    brochure: 'Please also send the brochure and price list.',
+  },
   whatsapp: {
     label: 'Chat on WhatsApp',
     /** {topic} is replaced with the chosen cottage or project */

@@ -45,11 +45,10 @@ const aria = (id: string, error?: string) => ({
 interface EnquiryFormProps {
   form: UseFormReturn<EnquiryValues>
   onSubmit: () => void
-  failed: boolean
 }
 
 /** The enquiry card's fields (EKJAP_PLAN.md §9.12). Validation runs on blur, then live. */
-export function EnquiryForm({ form, onSubmit, failed }: EnquiryFormProps) {
+export function EnquiryForm({ form, onSubmit }: EnquiryFormProps) {
   const {
     register,
     control,
@@ -123,21 +122,12 @@ export function EnquiryForm({ form, onSubmit, failed }: EnquiryFormProps) {
         {fields.brochure.label}
       </label>
 
-      {failed && (
-        <p
-          role="alert"
-          className="rounded-xl border border-error/60 px-4 py-3 text-[0.95rem] text-error-soft"
-        >
-          {enquire.failure}
-        </p>
-      )}
-
       <button
         type="submit"
         disabled={isSubmitting}
         className="mt-2 inline-flex items-center justify-center rounded-full bg-ember-400 px-6 py-3.5 font-medium text-pine-950 shadow-ember transition-colors hover:bg-ember-600 disabled:opacity-60"
       >
-        {isSubmitting ? enquire.sending : enquire.submit}
+        {enquire.submit}
       </button>
     </form>
   )

@@ -4,7 +4,7 @@ import { Nav } from '@/components/layout/Nav'
 import { Preloader } from '@/components/layout/Preloader'
 import { MistBand } from '@/components/motion/MistBand'
 import { goa } from '@/data/goa'
-import { common, contact, meta } from '@/data/site'
+import { common, contact, meta, projects } from '@/data/site'
 import { useSectionTheme } from '@/hooks/useSectionTheme'
 import { ScrollTrigger } from '@/lib/gsap'
 import { SmoothScroll } from '@/lib/SmoothScroll'
@@ -48,7 +48,11 @@ function KasauliPage() {
       <MistBand />
       <Builder />
       <MistBand />
-      <Enquire location={kasauliLocation} extraLocation={contact.builtLocation} />
+      <Enquire
+        project={projects.current.name}
+        location={kasauliLocation}
+        extraLocation={contact.builtLocation}
+      />
       <MistBand />
     </>
   )
@@ -64,7 +68,7 @@ function GoaPage() {
       <MistBand />
       <Builder />
       <MistBand />
-      <Enquire location={goa.location} look={goa.enquire} />
+      <Enquire project={goa.title} location={goa.location} look={goa.enquire} />
       <MistBand />
     </>
   )
